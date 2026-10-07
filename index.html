@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixmo — Portfolio</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #08090d;
+            color: white;
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8, 9, 13, 0.75);
+            backdrop-filter: blur(15px);
+            z-index: 100;
+            border-bottom: 1px solid #1c1e27;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+            margin-left: 30px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 10%;
+            background:
+                radial-gradient(circle at 70% 40%, #35207055, transparent 35%),
+                #08090d;
+        }
+
+        .hero h1 {
+            font-size: clamp(60px, 10vw, 130px);
+            line-height: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 span {
+            color: #8b5cf6;
+        }
+
+        .hero p {
+            max-width: 650px;
+            color: #a5a5ad;
+            font-size: 20px;
+            margin-bottom: 35px;
+        }
+
+        .buttons a {
+            display: inline-block;
+            padding: 14px 25px;
+            margin-right: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            background: #8b5cf6;
+            transition: 0.3s;
+        }
+
+        .buttons a:hover {
+            transform: translateY(-3px);
+            background: #7c3aed;
+        }
+
+        .buttons .secondary {
+            background: #15161d;
+            border: 1px solid #292b36;
+        }
+
+        section {
+            padding: 110px 10%;
+        }
+
+        .section-title {
+            font-size: 45px;
+            margin-bottom: 50px;
+        }
+
+        .about {
+            max-width: 800px;
+            color: #aaa;
+            font-size: 19px;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            padding: 30px;
+            min-height: 220px;
+            background: #101117;
+            border: 1px solid #20222d;
+            border-radius: 18px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: #8b5cf6;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #999;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill {
+            padding: 12px 18px;
+            background: #12131a;
+            border: 1px solid #292b36;
+            border-radius: 50px;
+            color: #ccc;
+        }
+
+        .contact {
+            text-align: center;
+        }
+
+        .contact p {
+            color: #999;
+            margin-bottom: 30px;
+        }
+
+        footer {
+            padding: 30px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #1c1e27;
+        }
+
+        @media (max-width: 700px) {
+            nav {
+                padding: 18px 5%;
+            }
+
+            nav div:last-child {
+                display: none;
+            }
+
+            .hero {
+                padding: 120px 7%;
+            }
+
+            section {
+                padding: 80px 7%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">FIXMO</div>
+
+    <div>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div>
+        <h1>Hi, I'm <span>Fixmo.</span></h1>
+
+        <p>
+            Developer, Minecraft creator and digital builder.
+            I create Minecraft projects, websites and experimental
+            AI-powered experiences.
+        </p>
+
+        <div class="buttons">
+            <a href="#projects">View Projects</a>
+            <a class="secondary" href="#contact">Contact Me</a>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <h2 class="section-title">About</h2>
+
+    <p class="about">
+        I'm a developer and content creator interested in Minecraft,
+        web development, AI and digital projects. I enjoy building
+        things from scratch and experimenting with new technology.
+    </p>
+</section>
+
+<section id="projects">
+    <h2 class="section-title">Projects</h2>
+
+    <div class="projects">
+
+        <div class="card">
+            <h3>Minecraft Projects</h3>
+            <p>
+                Minecraft plugins, servers, mods and custom gameplay systems.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Web Development</h3>
+            <p>
+                Modern websites and interactive web experiences.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>AI Projects</h3>
+            <p>
+                Experimental AI tools, automation and creative projects.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<section id="skills">
+    <h2 class="section-title">Skills</h2>
+
+    <div class="skills">
+        <div class="skill">Java</div>
+        <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">Minecraft Development</div>
+        <div class="skill">AI</div>
+        <div class="skill">Content Creation</div>
+        <div class="skill">Video Editing</div>
+    </div>
+</section>
+
+<section id="contact" class="contact">
+    <h2 class="section-title">Let's Connect</h2>
+
+    <p>
+        Interested in a project or collaboration?
+    </p>
+
+    <div class="buttons">
+        <a href="https://github.com/ofixmo">GitHub</a>
+        <a class="secondary" href="#">YouTube</a>
+        <a class="secondary" href="#">Discord</a>
+    </div>
+</section>
+
+<footer>
+    © 2026 Fixmo. All rights reserved.
+</footer>
+
+</body>
+</html>

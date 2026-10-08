@@ -263,7 +263,7 @@
       mx += (ptrX - mx) * k
       my += (ptrY - my) * k
 
-      var bgLum = 0.2126 * bg[0] + 0.7152 * bg[1] + 0.0722 * bg[2]
+      var bgLum = 0.2126 * opts.background[0] + 0.7152 * opts.background[1] + 0.0722 * opts.background[2]
       var sx = bw / cw, sy = bh / ch
 
       /* field pass (half-res) */
@@ -272,8 +272,8 @@
       gl.useProgram(fieldProg)
       gl.uniform2f(uf.uRes,   target.width(), target.height())
       gl.uniform1f(uf.uTime,  clock)
-      gl.uniform3f(uf.uC1,    c1[0], c1[1], c1[2])
-      gl.uniform3f(uf.uC2,    c2[0], c2[1], c2[2])
+      gl.uniform3f(uf.uC1, opts.color1[0], opts.color1[1], opts.color1[2])
+      gl.uniform3f(uf.uC2, opts.color2[0], opts.color2[1], opts.color2[2])
       gl.uniform1f(uf.uSize,  sz)
       gl.uniform1f(uf.uAngle, ang)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
@@ -287,7 +287,7 @@
       gl.uniform1i(un.uField,  0)
       gl.uniform2f(un.uRes,    bw, bh)
       gl.uniform1f(un.uTime,   clock)
-      gl.uniform3f(un.uBg,     bg[0], bg[1], bg[2])
+      gl.uniform3f(un.uBg, opts.background[0], opts.background[1], opts.background[2])
       gl.uniform1f(un.uPaper,  clampN((bgLum - 0.35) / 0.3, 0, 1))
       gl.uniform2f(un.uMouse,  mx * sx, bh - my * sy)
       gl.uniform1f(un.uOn,     on * hov)
@@ -310,23 +310,45 @@
     }
   }
 
+  
   /* ── boot ── */
   function boot() {
     var canvas = document.getElementById('mosaic-lens')
     if (!canvas) return
     var root = canvas.parentElement
-    init(canvas, root, {
-      /* white → sky-blue flow on dark portfolio background */
-      color1:     [0.929, 0.953, 1.000],  /* #edf3ff  --text near-white  */
-      color2:     [0.490, 0.827, 0.988],  /* #7dd3fc  --accent-2 sky     */
-      background: [0.027, 0.043, 0.078],  /* #070b14  --bg dark          */
+    
+    var opts = {
+      color1: [0.4, 0.4, 0.4],
+      color2: [0.15, 0.15, 0.15],
+      background: [0.02, 0.02, 0.02],
       speed: 1.0,
       size:  1.53,
       angle: 0.0,
       tile:  10,
       hover: 0.88,
       reach: 279,
-    })
+    };
+    
+    init(canvas, root, opts);
+    
+    function updateTheme() {
+        if (document.body.classList.contains('theme-light')) {
+            // Premium subtle silver-lavender glow on light grey
+            opts.color1[0] = 0.55; opts.color1[1] = 0.50; opts.color1[2] = 0.62; // Soft lavender
+            opts.color2[0] = 0.82; opts.color2[1] = 0.80; opts.color2[2] = 0.85; // Light silver
+            opts.background[0] = 0.96; opts.background[1] = 0.96; opts.background[2] = 0.96; // Clean light grey
+        } else {
+            // Dark (current brown + black)
+            opts.color1[0] = 0.4; opts.color1[1] = 0.35; opts.color1[2] = 0.3; // Darker brown
+            opts.color2[0] = 0.15; opts.color2[1] = 0.15; opts.color2[2] = 0.15; // Blackish
+            opts.background[0] = 0.02; opts.background[1] = 0.02; opts.background[2] = 0.02; // Dark bg
+        }
+    }
+    
+    // Initial update and observe class changes on body
+    updateTheme();
+    var observer = new MutationObserver(updateTheme);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
 
   if (document.readyState === 'loading') {

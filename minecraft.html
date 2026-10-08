@@ -8,45 +8,67 @@
       content="Fixmo creates Minecraft thumbnails, graphics, server branding, and visual assets for streamers and communities."
     />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
-    <meta name="theme-color" content="#8b5cf6" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Fixmo | Minecraft Thumbnails & Design" />
-    <meta property="og:description" content="Fixmo creates Minecraft thumbnails, graphics, server branding, and visual assets for streamers and communities." />
-    <meta property="og:url" content="https://ofixmo.github.io/minecraft.html" />
-    <meta property="og:site_name" content="Fixmo" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@ofixmo" />
-    <meta name="twitter:title" content="Fixmo | Minecraft Thumbnails & Design" />
-    <meta name="twitter:description" content="Fixmo creates Minecraft thumbnails, graphics, server branding, and visual assets for streamers and communities." />
     <title>Fixmo | Minecraft Thumbnails & Design</title>
     <link rel="stylesheet" href="assets/minecraft.css" />
+    <style>
+        
+
+        .sound-toggle {
+            position: fixed; bottom: 40px; right: 40px; z-index: 20;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05); color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .sound-toggle:hover { 
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        
+    </style>
   </head>
   <body>
     <div class="page-overlay"></div>
     <canvas id="mosaic-lens" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+    
+    
+
+    <!-- Sound Toggle -->
+    <button class="sound-toggle hover-target" id="btn-sound">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
+    </button>
+
     <div class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
-      <button class="mobile-nav-close" type="button" aria-label="Close menu" data-nav-close>✕</button>
-      <a href="index.html#about" data-nav-link>About</a>
-      <a href="index.html#work" data-nav-link>Work</a>
-      <a href="index.html" data-nav-link>Developer</a>
-      <a href="minecraft.html" data-nav-link>Minecraft</a>
-      <a href="index.html#contact" data-nav-link>Contact</a>
+      <button class="mobile-nav-close hover-target" type="button" aria-label="Close menu" data-nav-close>✕</button>
+      <a href="index.html#about" class="hover-target" data-nav-link>About</a>
+      <a href="index.html#work" class="hover-target" data-nav-link>Work</a>
+      <a href="index.html" class="hover-target" data-nav-link>Developer</a>
+      <a href="minecraft.html" class="hover-target" data-nav-link>Minecraft</a>
+      <a href="index.html#contact" class="hover-target" data-nav-link>Contact</a>
     </div>
+    
     <div class="site-shell">
       <nav>
         <div class="container nav-inner">
-          <a href="index.html" class="logo">FIX<span>MO</span></a>
+          <a href="index.html" class="logo hover-target">FIX<span>MO</span></a>
           <div style="display:flex; align-items:center; gap:14px;">
             <div class="nav-links">
-              <a href="index.html#about">About</a>
-              <a href="index.html#work">Work</a>
-              <a href="index.html#process">Process</a>
-              <a href="index.html">Developer</a>
-              <a href="minecraft.html">Minecraft</a>
-              <a href="index.html#contact">Contact</a>
+              <a href="index.html#about" class="hover-target">About</a>
+              <a href="index.html#work" class="hover-target">Work</a>
+              <a href="index.html#process" class="hover-target">Process</a>
+              <a href="index.html" class="hover-target">Developer</a>
+              <a href="minecraft.html" class="hover-target">Minecraft</a>
+              <a href="index.html#contact" class="hover-target">Contact</a>
             </div>
-            <button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle>☀️</button>
-            <button class="nav-burger" type="button" aria-label="Open menu" data-nav-burger>☰</button>
+            <button class="theme-toggle hover-target" type="button" aria-label="Toggle theme" data-theme-toggle>☀️</button>
+            <button class="nav-burger hover-target" type="button" aria-label="Open menu" data-nav-burger>☰</button>
           </div>
         </div>
       </nav>
@@ -64,13 +86,13 @@
               I design eye-catching Minecraft thumbnails, server promos, and branded visuals that help content stand out in crowded feeds and search results.
             </p>
             <div class="actions">
-              <a class="btn" href="index.html">Developer portfolio</a>
-              <a class="btn primary" href="#work">View design work</a>
-              <a class="btn" href="index.html#contact">Book a project</a>
+              <a class="btn hover-target" href="index.html">Developer portfolio</a>
+              <a class="btn primary hover-target" href="#work">View design work</a>
+              <a class="btn hover-target" href="index.html#contact">Book a project</a>
             </div>
-            <div class="page-switcher" aria-label="Page switcher">
-              <a href="index.html">Developer</a>
-              <a class="active" href="minecraft.html">Minecraft</a>
+            <div class="page-switcher" aria-label="Page switcher" style="gap: 12px; margin-top: 32px; display: flex;">
+              <a class="btn hover-target" href="index.html">Developer</a>
+              <a class="btn primary hover-target" href="minecraft.html">Minecraft</a>
             </div>
           </div>
 
@@ -219,7 +241,7 @@
                 <li>48hr delivery</li>
                 <li>Source file included</li>
               </ul>
-              <a class="btn" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
+              <a class="btn hover-target" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
             </div>
             <div class="pricing-card featured">
               <div class="pricing-badge">Most popular</div>
@@ -232,7 +254,7 @@
                 <li>24hr delivery</li>
                 <li>Source files included</li>
               </ul>
-              <a class="btn primary" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
+              <a class="btn primary hover-target" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
             </div>
             <div class="pricing-card">
               <div class="pricing-tier">Package</div>
@@ -244,30 +266,11 @@
                 <li>Promo graphics set</li>
                 <li>Priority 12hr delivery</li>
               </ul>
-              <a class="btn" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
+              <a class="btn hover-target" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
             </div>
           </div>
         </div>
       </section>
-
-      <!--
-      <section id="reviews">
-              <div class="container">
-                <div class="section-head" data-fade>
-                  <div>
-                    <div class="kicker">Reviews</div>
-                    <h2>Client reviews.</h2>
-                  </div>
-                </div>
-      
-                <div class="review-grid" data-fade data-delay="1">
-                  <article class="review-slot" aria-label="Empty review template"></article>
-                  <article class="review-slot" aria-label="Empty review template"></article>
-                  <article class="review-slot" aria-label="Empty review template"></article>
-                </div>
-              </div>
-            </section>
-      -->
 
       <section class="cta">
         <div class="container">
@@ -278,8 +281,8 @@
               I can create custom thumbnails, promo art, and visual branding for your server, content, or Minecraft project.
             </p>
             <div class="actions" style="justify-content: center;">
-              <a class="btn primary" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Discord</a>
-              <a class="btn" href="https://x.com/ofixmo" target="_blank" rel="noopener">X / Twitter</a>
+              <a class="btn primary hover-target" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Discord</a>
+              <a class="btn hover-target" href="https://x.com/ofixmo" target="_blank" rel="noopener">X / Twitter</a>
             </div>
           </div>
         </div>
@@ -296,5 +299,26 @@
 
     <script src="assets/minecraft.js"></script>
     <script src="assets/mosaic-lens.js"></script>
+    <script src="assets/audio-engine.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnSound = document.getElementById('btn-sound');
+            let soundEnabled = true;
+
+            AudioEngine.init(true);
+
+            btnSound.addEventListener('click', () => {
+                soundEnabled = !soundEnabled;
+                AudioEngine.setMuted(!soundEnabled);
+                btnSound.style.opacity = soundEnabled ? '1' : '0.5';
+            });
+
+            // Add hover sounds to all interactive elements
+            document.querySelectorAll('.hover-target, .btn, a, button').forEach(el => {
+                el.addEventListener('mouseenter', () => AudioEngine.play('hover'));
+                el.addEventListener('click', () => AudioEngine.play('click'));
+            });
+        });
+    </script>
   </body>
 </html>

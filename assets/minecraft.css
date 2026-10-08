@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap');
       :root {
         --bg: #050505;
         --bg-2: #0a0a0a;
         --panel: rgba(255, 255, 255, 0.03);
         --line: rgba(255, 255, 255, 0.08);
-        --muted: #888;
+        --muted: #b0b0b0;
         --text: #f8f8f8;
         --accent: #fff;
-        --accent-2: #aaa;
+        --accent-2: #c4c4c4;
         --card-bg: rgba(13, 18, 28, 0.92);
         --card-bg-gradient: linear-gradient(180deg, rgba(18, 26, 42, 0.94), rgba(13, 18, 28, 0.96));
         --card-alt: rgba(15, 22, 34, 0.92);
@@ -74,10 +74,10 @@
         --bg-2: #0a0a0a;
         --panel: rgba(255, 255, 255, 0.03);
         --line: rgba(255, 255, 255, 0.08);
-        --muted: #888;
+        --muted: #b0b0b0;
         --text: #f8f8f8;
         --accent: #fff;
-        --accent-2: #aaa;
+        --accent-2: #c4c4c4;
     }
 
       
@@ -822,14 +822,34 @@ body {
         color: var(--muted);
         font-size: 0.85rem;
       }
-      .currency-select {
+            .currency-select {
         min-height: 42px;
-        padding: 0 12px;
+        padding: 0 12px 0 16px;
         border: 1px solid var(--line);
-        border-radius: 8px;
+        border-radius: 10px;
         background: var(--panel);
         color: var(--text);
         font: inherit;
+        font-weight: 500;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        padding-right: 40px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 16px;
+        transition: border-color 0.25s, box-shadow 0.25s;
+      }
+      .currency-select:hover, .currency-select:focus {
+        border-color: rgba(139, 92, 246, 0.5);
+        box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+        outline: none;
+      }
+      .currency-select option {
+        background: #111827;
+        color: #eef7ff;
+        padding: 8px;
       }
       .pricing-desc {
         color: var(--muted);
@@ -1104,4 +1124,13 @@ body {
 .theme-light .cta-box {
   background: var(--card-bg-gradient);
 }
+
+
+
+.theme-light .currency-select option {
+  background: #fff;
+  color: #111;
+}
+
+
 

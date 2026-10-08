@@ -1,4 +1,4 @@
-class AudioEngineClass {
+﻿class AudioEngineClass {
     constructor() {
         this.ctx = null;
         this.muted = false;
@@ -14,7 +14,9 @@ class AudioEngineClass {
 
         const resumeContext = async () => {
             if (this.ctx && this.ctx.state === 'suspended') {
-                await this.ctx.resume();
+                try {
+                    await this.ctx.resume();
+                } catch (e) {}
             }
         };
 
@@ -22,14 +24,28 @@ class AudioEngineClass {
             await resumeContext();
         }
 
-        // Always try to resume on first user interaction to ensure hover sounds work
         if (!this.resumeEventAdded) {
-            const events = ['click', 'keydown', 'touchstart'];
+            // Standard user gestures
+            const clickEvents = ['click', 'keydown', 'touchstart', 'pointerdown', 'touchend'];
             const resumeHandler = () => {
                 resumeContext();
-                events.forEach(e => document.removeEventListener(e, resumeHandler));
+                clickEvents.forEach(e => document.removeEventListener(e, resumeHandler));
             };
-            events.forEach(e => document.addEventListener(e, resumeHandler, { once: true }));
+            clickEvents.forEach(e => document.addEventListener(e, resumeHandler, { once: true, capture: true }));
+            
+            // Aggressive unlock attempts on any movement/scroll
+            const moveEvents = ['mousemove', 'wheel', 'scroll', 'pointermove'];
+            const aggressiveHandler = () => {
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume().then(() => {
+                        moveEvents.forEach(e => document.removeEventListener(e, aggressiveHandler));
+                    }).catch(() => {});
+                } else if (this.ctx && this.ctx.state === 'running') {
+                    moveEvents.forEach(e => document.removeEventListener(e, aggressiveHandler));
+                }
+            };
+            moveEvents.forEach(e => document.addEventListener(e, aggressiveHandler, { capture: true, passive: true }));
+
             this.resumeEventAdded = true;
         }
     }
@@ -38,21 +54,28 @@ class AudioEngineClass {
         this.muted = muted;
     }
 
-    play(type) {
+    async play(type) {
         if (!this.initialized || this.muted || !this.ctx) return;
-        if (this.ctx.state === 'suspended') return; // Cannot play if suspended
+        
+        if (this.ctx.state === 'suspended') {
+            try {
+                await this.ctx.resume();
+            } catch (e) {
+                return;
+            }
+        }
+        
+        if (this.ctx.state === 'suspended') return;
 
         const time = this.ctx.currentTime;
 
         if (type === 'hover') {
-            // Very subtle, quick organic tick
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
             osc.connect(gain);
             gain.connect(this.ctx.destination);
             
             osc.type = 'sine';
-            // Start high, drop fast
             osc.frequency.setValueAtTime(1000, time);
             osc.frequency.exponentialRampToValueAtTime(300, time + 0.015);
             
@@ -64,7 +87,6 @@ class AudioEngineClass {
             osc.stop(time + 0.02);
         }
         else if (type === 'click') {
-            // Elegant, satisfying pop
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
             osc.connect(gain);
@@ -80,35 +102,6 @@ class AudioEngineClass {
             
             osc.start(time);
             osc.stop(time + 0.05);
-        }
-        else if (type === 'whoosh') {
-            const bufferSize = this.ctx.sampleRate * 0.5;
-            const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = Math.random() * 2 - 1;
-            }
-            
-            const noise = this.ctx.createBufferSource();
-            noise.buffer = buffer;
-            
-            const filter = this.ctx.createBiquadFilter();
-            filter.type = 'lowpass';
-            filter.frequency.setValueAtTime(200, time);
-            filter.frequency.exponentialRampToValueAtTime(2000, time + 0.2);
-            filter.frequency.exponentialRampToValueAtTime(200, time + 0.5);
-            
-            const gain = this.ctx.createGain();
-            gain.gain.setValueAtTime(0, time);
-            gain.gain.linearRampToValueAtTime(0.05, time + 0.2);
-            gain.gain.exponentialRampToValueAtTime(0.001, time + 0.5);
-            
-            noise.connect(filter);
-            filter.connect(gain);
-            gain.connect(this.ctx.destination);
-            
-            noise.start(time);
-            noise.stop(time + 0.5);
         }
     }
 }

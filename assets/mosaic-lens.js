@@ -333,10 +333,10 @@
     
     function updateTheme() {
         if (document.body.classList.contains('theme-light')) {
-            // Premium subtle silver-lavender glow on light grey
-            opts.color1[0] = 0.55; opts.color1[1] = 0.50; opts.color1[2] = 0.62; // Soft lavender
-            opts.color2[0] = 0.82; opts.color2[1] = 0.80; opts.color2[2] = 0.85; // Light silver
-            opts.background[0] = 0.96; opts.background[1] = 0.96; opts.background[2] = 0.96; // Clean light grey
+            // Super vibrant Violet and Cyan to make the light mode background POP!
+            opts.color1[0] = 1.80; opts.color1[1] = 0.40; opts.color1[2] = 2.40; // Intense Violet/Magenta
+            opts.color2[0] = 0.20; opts.color2[1] = 1.80; opts.color2[2] = 2.60; // Intense Bright Cyan
+            opts.background[0] = 0.96; opts.background[1] = 0.97; opts.background[2] = 0.99; // Crisp cool white background
         } else {
             // Dark (current brown + black)
             opts.color1[0] = 0.4; opts.color1[1] = 0.35; opts.color1[2] = 0.3; // Darker brown
@@ -357,3 +357,4 @@
     boot()
   }
 })()
+

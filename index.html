@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Fixmo builds immersive Minecraft experiences, polished web interfaces, and standout digital products."
+    />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <meta name="theme-color" content="#8b5cf6" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Fixmo — Developer & Creative Builder" />
+    <meta property="og:description" content="Fixmo builds immersive Minecraft experiences, polished web interfaces, and standout digital products." />
+    <meta property="og:url" content="https://ofixmo.github.io" />
+    <meta property="og:site_name" content="Fixmo" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@ofixmo" />
+    <meta name="twitter:title" content="Fixmo — Developer & Creative Builder" />
+    <meta name="twitter:description" content="Fixmo builds immersive Minecraft experiences, polished web interfaces, and standout digital products." />
+    <title>Fixmo — Developer & Creative Builder</title>
+    <link rel="stylesheet" href="assets/index.css" />
+  </head>
+  <body>
+    <div class="page-overlay"></div>
+    <canvas id="mosaic-lens" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+    <div class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+      <button class="mobile-nav-close" type="button" aria-label="Close menu" data-nav-close>✕</button>
+      <a href="#about" data-nav-link>About</a>
+      <a href="#work" data-nav-link>Work</a>
+      <a href="#process" data-nav-link>Process</a>
+      <a href="minecraft.html" data-nav-link>Minecraft</a>
+      <a href="#contact" data-nav-link>Contact</a>
+    </div>
+    <div class="site-shell">
+      <nav>
+        <div class="container nav-inner">
+          <a href="#" class="logo">FIX<span>MO</span></a>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div class="nav-links">
+              <a href="#about">About</a>
+              <a href="#work">Work</a>
+              <a href="#process">Process</a>
+              <a href="minecraft.html">Minecraft</a>
+              <a href="#contact">Contact</a>
+            </div>
+            <button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle>☀️</button>
+            <button class="nav-burger" type="button" aria-label="Open menu" data-nav-burger>☰</button>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">Developer • Minecraft builder • designer</div>
+            <h1>
+              I create <span class="gradient">immersive ideas</span>
+              that feel premium from the first click.
+            </h1>
+            <p class="hero-copy">
+              I’m Fixmo — a creative developer building distinctive digital experiences,
+              Minecraft concepts, and polished web products that combine design clarity with real-world utility.
+            </p>
+            <div class="actions">
+              <a class="btn primary" href="#work">See my work</a>
+              <a class="btn" href="minecraft.html">Minecraft design</a>
+              <a class="btn" href="#contact">Let’s build something</a>
+            </div>
+            <div class="page-switcher" aria-label="Page switcher">
+              <a class="active" href="index.html">Developer</a>
+              <a href="minecraft.html">Minecraft</a>
+            </div>
+          </div>
+
+          <div class="hero-card" aria-label="Portfolio preview card">
+            <div class="orbital-ring"></div>
+            <div class="glass-panel">
+              <div class="window-dots"><span></span><span></span><span></span></div>
+              <div class="code-block">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+              </div>
+            </div>
+            <div class="float-tag one">Minecraft / Web</div>
+            <div class="float-tag two">Strategy → Design → Ship</div>
+            <div class="float-tag three">ofixmo</div>
+
+            <div class="hero-stats">
+              <div class="mini-stat">
+                <strong>12+</strong>
+                <span>Creative builds</span>
+              </div>
+              <div class="mini-stat">
+                <strong>∞</strong>
+                <span>Iterations</span>
+              </div>
+              <div class="mini-stat">
+                <strong>3x</strong>
+                <span>Sharper polish</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="kicker">About</div>
+              <h2>Built for clarity, crafted for impact.</h2>
+            </div>
+            <p>
+              I care about more than visuals alone — I design systems that feel smooth, memorable, and worth returning to.
+            </p>
+          </div>
+
+          <div class="about-grid">
+            <div class="panel">
+              <p>
+                My work lives at the intersection of creativity and execution. I build Minecraft experiences, product-style storefronts,
+                and digital interfaces that feel intentional from the first glance to the final interaction. The goal is always the same:
+                turn a strong idea into something users instantly understand and want to explore.
+              </p>
+            </div>
+
+            <div class="pill-grid">
+              <div class="pill-card">
+                <strong>Java</strong>
+                <span>Core systems</span>
+              </div>
+              <div class="pill-card">
+                <strong>Web</strong>
+                <span>UI + product</span>
+              </div>
+              <div class="pill-card">
+                <strong>Design</strong>
+                <span>Brand polish</span>
+              </div>
+              <div class="pill-card">
+                <strong>Build</strong>
+                <span>Fast execution</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="work">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Selected work</div>
+              <h2>Featured builds.</h2>
+            </div>
+            <p>
+              A focused look at the kind of product thinking and visual polish I aim for in every project.
+            </p>
+          </div>
+
+          <div class="showcase">
+            <div class="showcase-main">
+              <div class="kicker" style="margin-bottom: 10px;">Featured project</div>
+              <h3>Server Store Concept</h3>
+              <p>
+                A premium storefront experience designed for a Minecraft community brand — blending product clarity,
+                conversion-focused UX, and a sleek visual system that feels confident and modern.
+              </p>
+
+              <div class="metric-row">
+                <div class="metric-box">
+                  <strong>01</strong>
+                  <span>Storefront</span>
+                </div>
+                <div class="metric-box">
+                  <strong>24/7</strong>
+                  <span>Brand-ready</span>
+                </div>
+                <div class="metric-box">
+                  <strong>UX</strong>
+                  <span>Conversion flow</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="aside-stack">
+              <div class="stack-card">
+                <h4>Focus</h4>
+                <ul>
+                  <li>Brand-first design</li>
+                  <li>Conversion-driven layout</li>
+                  <li>High visual polish</li>
+                </ul>
+              </div>
+              <div class="stack-card">
+                <h4>Style notes</h4>
+                <ul>
+                  <li>Dark luxury aesthetic</li>
+                  <li>Clear hierarchy</li>
+                  <li>Strong CTA structure</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="project-grid">
+            <article class="project-card">
+              <img src="assets/server-store-home.png" alt="Minecraft server storefront homepage design" />
+              <div class="project-meta">
+                <div class="top-line">
+                  <h4>Home</h4>
+                  <span class="chip">Landing</span>
+                </div>
+                <p>Bold visuals, clean structure, and a magnetic first impression built for community growth.</p>
+                <a class="project-link" href="https://github.com/ofixmo" target="_blank" rel="noopener">View on GitHub →</a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <img src="assets/server-store-products.png" alt="Minecraft server storefront products page design" />
+              <div class="project-meta">
+                <div class="top-line">
+                  <h4>Products</h4>
+                  <span class="chip">Catalog</span>
+                </div>
+                <p>Clear product positioning and premium hierarchy designed to feel easy to browse and buy.</p>
+                <a class="project-link" href="https://github.com/ofixmo" target="_blank" rel="noopener">View on GitHub →</a>
+              </div>
+            </article>
+
+            <article class="project-card">
+              <img src="assets/server-store-cart.png" alt="Minecraft server storefront cart design" />
+              <div class="project-meta">
+                <div class="top-line">
+                  <h4>Cart</h4>
+                  <span class="chip">Checkout</span>
+                </div>
+                <p>A final-step experience tuned for clarity, trust, and frictionless checkout interaction.</p>
+                <a class="project-link" href="https://github.com/ofixmo" target="_blank" rel="noopener">View on GitHub →</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="process">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Process</div>
+              <h2>Thoughtful from brief to launch.</h2>
+            </div>
+            <p>
+              Every project gets a clear creative direction, usable structure, and a finish that feels sharp and intentional.
+            </p>
+          </div>
+
+          <div class="process-grid">
+            <div class="process-card">
+              <div class="step">01</div>
+              <h4>Discover</h4>
+              <p>I unpack the vision, goals, audience, and the feeling the experience should create.</p>
+            </div>
+
+            <div class="process-card">
+              <div class="step">02</div>
+              <h4>Design</h4>
+              <p>I shape the visual system, UX flow, and creative direction into something distinctive and usable.</p>
+            </div>
+
+            <div class="process-card">
+              <div class="step">03</div>
+              <h4>Build</h4>
+              <p>I translate the concept into a clean and responsive product, balancing style with performance.</p>
+            </div>
+
+            <div class="process-card">
+              <div class="step">04</div>
+              <h4>Refine</h4>
+              <p>I tighten the details, improve motion and hierarchy, and make sure the final build feels premium.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Toolkit</div>
+              <h2>What I work with.</h2>
+            </div>
+          </div>
+
+          <div class="stack">
+            <span class="tag">Java</span>
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Minecraft Dev</span>
+            <span class="tag">Web Design</span>
+            <span class="tag">UI / UX</span>
+            <span class="tag">Brand Systems</span>
+            <span class="tag">Creative Direction</span>
+            <span class="tag">Product Thinking</span>
+          </div>
+        </div>
+      </section>
+
+      <!--
+      <section id="reviews">
+              <div class="container">
+                <div class="section-head" data-fade>
+                  <div>
+                    <div class="kicker">Reviews</div>
+                    <h2>Client reviews.</h2>
+                  </div>
+                </div>
+      
+                <div class="review-grid" data-fade data-delay="1">
+                  <article class="review-slot" aria-label="Empty review template"></article>
+                  <article class="review-slot" aria-label="Empty review template"></article>
+                  <article class="review-slot" aria-label="Empty review template"></article>
+                </div>
+              </div>
+            </section>
+      -->
+
+      <section class="cta" id="contact">
+        <div class="container">
+          <div class="cta-box">
+            <div class="kicker">Let’s connect</div>
+            <h2>Have a project that deserves a better first impression?</h2>
+            <p>
+              Whether it’s a Minecraft experience, a storefront, or a brand-new web concept, I can help turn the idea into something memorable.
+            </p>
+            <div class="actions">
+              <a class="btn primary" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Discord</a>
+              <a class="btn" href="https://x.com/ofixmo" target="_blank" rel="noopener">X / Twitter</a>
+              <a class="btn" href="https://github.com/ofixmo" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      </main>
+
+      <footer>
+        <div class="container footer-inner">
+          <span>© 2026 Fixmo</span>
+          <span>Designed and built with intention.</span>
+        </div>
+      </footer>
+    </div>
+
+    <script src="assets/index.js"></script>
+    <script src="assets/mosaic-lens.js"></script>
+  </body>
+</html>

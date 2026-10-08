@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Fixmo creates Minecraft thumbnails, graphics, server branding, and visual assets for streamers and communities."
+    />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <meta name="theme-color" content="#8b5cf6" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Fixmo | Minecraft Thumbnails & Design" />
+    <meta property="og:description" content="Fixmo creates Minecraft thumbnails, graphics, server branding, and visual assets for streamers and communities." />
+    <meta property="og:url" content="https://ofixmo.github.io/minecraft.html" />
+    <meta property="og:site_name" content="Fixmo" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@ofixmo" />
+    <meta name="twitter:title" content="Fixmo | Minecraft Thumbnails & Design" />
+    <meta name="twitter:description" content="Fixmo creates Minecraft thumbnails, graphics, server branding, and visual assets for streamers and communities." />
+    <title>Fixmo | Minecraft Thumbnails & Design</title>
+    <link rel="stylesheet" href="assets/minecraft.css" />
+  </head>
+  <body>
+    <div class="page-overlay"></div>
+    <canvas id="mosaic-lens" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+    <div class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+      <button class="mobile-nav-close" type="button" aria-label="Close menu" data-nav-close>✕</button>
+      <a href="index.html#about" data-nav-link>About</a>
+      <a href="index.html#work" data-nav-link>Work</a>
+      <a href="index.html" data-nav-link>Developer</a>
+      <a href="minecraft.html" data-nav-link>Minecraft</a>
+      <a href="index.html#contact" data-nav-link>Contact</a>
+    </div>
+    <div class="site-shell">
+      <nav>
+        <div class="container nav-inner">
+          <a href="index.html" class="logo">FIX<span>MO</span></a>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div class="nav-links">
+              <a href="index.html#about">About</a>
+              <a href="index.html#work">Work</a>
+              <a href="index.html#process">Process</a>
+              <a href="index.html">Developer</a>
+              <a href="minecraft.html">Minecraft</a>
+              <a href="index.html#contact">Contact</a>
+            </div>
+            <button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle>☀️</button>
+            <button class="nav-burger" type="button" aria-label="Open menu" data-nav-burger>☰</button>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">Minecraft design studio</div>
+            <h1>
+              Bold thumbnails.<br />
+              <span class="gradient">Serious clicks.</span>
+            </h1>
+            <p class="hero-copy">
+              I design eye-catching Minecraft thumbnails, server promos, and branded visuals that help content stand out in crowded feeds and search results.
+            </p>
+            <div class="actions">
+              <a class="btn" href="index.html">Developer portfolio</a>
+              <a class="btn primary" href="#work">View design work</a>
+              <a class="btn" href="index.html#contact">Book a project</a>
+            </div>
+            <div class="page-switcher" aria-label="Page switcher">
+              <a href="index.html">Developer</a>
+              <a class="active" href="minecraft.html">Minecraft</a>
+            </div>
+          </div>
+
+          <div class="showcase-card" aria-label="Minecraft thumbnail mockup">
+            <div class="thumb-demo">
+              <div class="thumb-art"></div>
+            </div>
+            <div class="mini-labels">
+              <div class="mini-box">
+                <strong>120+</strong>
+                <span>Design ideas</span>
+              </div>
+              <div class="mini-box">
+                <strong>3x</strong>
+                <span>More clicks</span>
+              </div>
+              <div class="mini-box">
+                <strong>4K</strong>
+                <span>Visual polish</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Services</div>
+              <h2>Visuals built for attention.</h2>
+            </div>
+            <p>
+              Whether it’s a YouTube thumbnail, a server banner, or a full content package, I focus on making the subject instantly clear and visually memorable.
+            </p>
+          </div>
+
+          <div class="services">
+            <div class="service-card">
+              <div class="number">01</div>
+              <h3>Thumbnails</h3>
+              <p>High-contrast, readable, and click-focused layouts built to stand out in a rushed feed.</p>
+            </div>
+
+            <div class="service-card">
+              <div class="number">02</div>
+              <h3>Server branding</h3>
+              <p>Graphics for Minecraft communities, promotional campaigns, and polished server identities.</p>
+            </div>
+
+            <div class="service-card">
+              <div class="number">03</div>
+              <h3>Packages & assets</h3>
+              <p>Reusable design assets, promo graphics, and custom visuals to support content and growth.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="work">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Style direction</div>
+              <h2>Designs made to pop.</h2>
+            </div>
+            <p>
+              I build toward strong focal points, readable text, and an overall aesthetic that still feels premium and clean.
+            </p>
+          </div>
+
+          <div class="gallery">
+            <article class="art-card">
+              <div class="art-preview" data-title="Boss raid"></div>
+              <div class="art-meta">
+                <h4>Raid promo</h4>
+                <p>High-stakes visuals with contrast, impact, and a clear “must-click” layout.</p>
+              </div>
+            </article>
+
+            <article class="art-card">
+              <div class="art-preview" data-title="Quest drop"></div>
+              <div class="art-meta">
+                <h4>Loot reveal</h4>
+                <p>Bright focal pieces designed to highlight reward value and excitement instantly.</p>
+              </div>
+            </article>
+
+            <article class="art-card">
+              <div class="art-preview" data-title="Server showcase"></div>
+              <div class="art-meta">
+                <h4>Community banner</h4>
+                <p>Clean branding pieces that feel premium while still matching a Minecraft aesthetic.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Approach</div>
+              <h2>Built for clarity and conversion.</h2>
+            </div>
+          </div>
+
+          <div class="stack">
+            <span class="tag">Minecraft aesthetic</span>
+            <span class="tag">Readable typography</span>
+            <span class="tag">Bold colors</span>
+            <span class="tag">YouTube thumbnails</span>
+            <span class="tag">Server graphics</span>
+            <span class="tag">Content branding</span>
+            <span class="tag">Promo variants</span>
+            <span class="tag">Clean layouts</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <div class="container">
+          <div class="section-head" data-fade>
+            <div>
+              <div class="kicker">Pricing</div>
+              <h2>Simple, honest rates.</h2>
+            </div>
+            <div class="pricing-controls">
+              <label for="currency-select">Currency</label>
+              <select class="currency-select" id="currency-select" aria-label="Price currency">
+                <option value="USD">USD ($)</option>
+                <option value="INR">INR (₹)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="pricing-grid" data-fade data-delay="1">
+            <div class="pricing-card">
+              <div class="pricing-tier">Starter</div>
+              <div class="pricing-amount" data-price-usd="15">$15</div>
+              <div class="pricing-desc">Single thumbnail</div>
+              <ul class="pricing-list">
+                <li>1 custom thumbnail</li>
+                <li>2 rounds of revisions</li>
+                <li>48hr delivery</li>
+                <li>Source file included</li>
+              </ul>
+              <a class="btn" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
+            </div>
+            <div class="pricing-card featured">
+              <div class="pricing-badge">Most popular</div>
+              <div class="pricing-tier">Standard</div>
+              <div class="pricing-amount" data-price-usd="35">$35</div>
+              <div class="pricing-desc">Bundle of 3</div>
+              <ul class="pricing-list">
+                <li>3 custom thumbnails</li>
+                <li>Unlimited revisions</li>
+                <li>24hr delivery</li>
+                <li>Source files included</li>
+              </ul>
+              <a class="btn primary" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
+            </div>
+            <div class="pricing-card">
+              <div class="pricing-tier">Package</div>
+              <div class="pricing-amount" data-price-usd="80">$80</div>
+              <div class="pricing-desc">Full brand kit</div>
+              <ul class="pricing-list">
+                <li>5+ thumbnails</li>
+                <li>Server logo & banner</li>
+                <li>Promo graphics set</li>
+                <li>Priority 12hr delivery</li>
+              </ul>
+              <a class="btn" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--
+      <section id="reviews">
+              <div class="container">
+                <div class="section-head" data-fade>
+                  <div>
+                    <div class="kicker">Reviews</div>
+                    <h2>Client reviews.</h2>
+                  </div>
+                </div>
+      
+                <div class="review-grid" data-fade data-delay="1">
+                  <article class="review-slot" aria-label="Empty review template"></article>
+                  <article class="review-slot" aria-label="Empty review template"></article>
+                  <article class="review-slot" aria-label="Empty review template"></article>
+                </div>
+              </div>
+            </section>
+      -->
+
+      <section class="cta">
+        <div class="container">
+          <div class="cta-box">
+            <div class="kicker">Need visuals?</div>
+            <h2>Want a thumbnail or Minecraft graphic that actually stands out?</h2>
+            <p>
+              I can create custom thumbnails, promo art, and visual branding for your server, content, or Minecraft project.
+            </p>
+            <div class="actions" style="justify-content: center;">
+              <a class="btn primary" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Discord</a>
+              <a class="btn" href="https://x.com/ofixmo" target="_blank" rel="noopener">X / Twitter</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      </main>
+
+      <footer>
+        <div class="container footer-inner">
+          <span>© 2026 Fixmo</span>
+          <span>Thumbnail design • server graphics • visual branding</span>
+        </div>
+      </footer>
+    </div>
+
+    <script src="assets/minecraft.js"></script>
+    <script src="assets/mosaic-lens.js"></script>
+  </body>
+</html>

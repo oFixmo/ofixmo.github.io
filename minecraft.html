@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Fixmo creates Minecraft thumbnails, graphics, server branding, and visual assets for streamers and communities."
+    />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+    <meta name="theme-color" content="#8b5cf6" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Fixmo | Minecraft Thumbnails & Design" />
+    <meta property="og:description" content="Fixmo creates Minecraft thumbnails, graphics, server branding, and visual assets for streamers and communities." />
+    <meta property="og:url" content="https://ofixmo.github.io/minecraft.html" />
+    <meta property="og:site_name" content="Fixmo" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@ofixmo" />
+    <meta name="twitter:title" content="Fixmo | Minecraft Thumbnails & Design" />
+    <meta name="twitter:description" content="Fixmo creates Minecraft thumbnails, graphics, server branding, and visual assets for streamers and communities." />
+    <title>Fixmo | Minecraft Thumbnails & Design</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap');
+
+      :root {
+        --bg: #f5f7ff;
+        --bg-2: #eef3ff;
+        --panel: rgba(255, 255, 255, 0.82);
+        --line: rgba(75, 85, 120, 0.14);
+        --muted: #475569;
+        --text: #0f172a;
+        --accent: #7c3aed;
+        --accent-2: #2563eb;
+        --accent-3: #0d9488;
+        --gold: #ca8a04;
+        --shadow: rgba(15, 23, 42, 0.12);
+      }
+
+      body.theme-dark {
+        --bg: #071018;
+        --bg-2: #0d1723;
+        --panel: rgba(17, 25, 36, 0.85);
+        --line: rgba(158, 176, 203, 0.18);
+        --muted: #a9b8c9;
+        --text: #eef7ff;
+        --accent: #8b5cf6;
+        --accent-2: #7dd3fc;
+        --accent-3: #7ef0c2;
+        --gold: #facc15;
+        --shadow: rgba(5, 9, 16, 0.72);
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        background:
+          radial-gradient(circle at 20% 12%, rgba(139, 92, 246, 0.12), transparent 18%),
+          radial-gradient(circle at 80% 0%, rgba(59, 130, 246, 0.12), transparent 16%),
+          linear-gradient(180deg, #f8faff 0%, #ebf2ff 100%);
+        color: var(--text);
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      body.theme-dark {
+        background:
+          radial-gradient(circle at 20% 12%, rgba(139, 92, 246, 0.18), transparent 18%),
+          radial-gradient(circle at 80% 0%, rgba(125, 211, 252, 0.12), transparent 16%),
+          linear-gradient(180deg, var(--bg) 0%, #08131c 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+        background-size: 42px 42px;
+        mask-image: radial-gradient(circle at center, black, transparent 92%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at 50% 0%, rgba(125, 211, 252, 0.12), transparent 30%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      .page-overlay {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at 50% 20%, rgba(139, 92, 246, 0.18), transparent 30%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.38s ease;
+        z-index: 40;
+      }
+
+      body.transitioning .page-overlay {
+        opacity: 1;
+      }
+
+      body:not(.loaded) .site-shell {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      .site-shell {
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity 0.45s ease, transform 0.45s ease;
+      }
+
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        backdrop-filter: blur(16px);
+        background: rgba(7, 16, 24, 0.7);
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+      }
+
+      body.theme-light nav {
+        background: rgba(255, 255, 255, 0.62);
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 74px;
+      }
+
+      .logo {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.25rem;
+        letter-spacing: 0.08em;
+        font-weight: 700;
+      }
+
+      .logo span {
+        color: var(--accent-2);
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        font-size: 0.85rem;
+        color: rgba(238,247,255,0.72);
+      }
+
+      body.theme-light .nav-links {
+        color: rgba(15, 23, 42, 0.7);
+      }
+
+      .nav-links a {
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -7px;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.25s ease;
+      }
+
+      .nav-links a:hover::after {
+        transform: scaleX(1);
+      }
+
+      section {
+        padding: 96px 0;
+      }
+
+      .hero {
+        padding: 84px 0 72px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        align-items: center;
+        gap: 28px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(125, 211, 252, 0.2);
+        background: rgba(125, 211, 252, 0.06);
+        color: var(--accent-2);
+        letter-spacing: 0.16em;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      h1 {
+        margin: 22px 0 18px;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(3.2rem, 6.8vw, 7rem);
+        line-height: 0.9;
+        letter-spacing: -0.08em;
+      }
+
+      h1 .gradient {
+        background: linear-gradient(120deg, #fef3c7 0%, #f4d35e 18%, #c084fc 58%, #7dd3fc 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-copy {
+        max-width: 620px;
+        color: var(--muted);
+        font-size: 1.1rem;
+        line-height: 1.8;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 20px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(17, 25, 39, 0.8);
+        color: var(--text);
+        font-weight: 600;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.24);
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      body.theme-light .btn {
+        background: rgba(255, 255, 255, 0.82);
+        border-color: rgba(15, 23, 42, 0.08);
+        color: #0f172a;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+      }
+
+      body.theme-light .btn.primary {
+        background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 100%);
+        border-color: rgba(139, 92, 246, 0.18);
+        color: #0f172a;
+        box-shadow: 0 14px 28px rgba(139, 92, 246, 0.18);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        border-color: rgba(139, 92, 246, 0.5);
+        box-shadow: 0 18px 40px rgba(76, 29, 149, 0.22);
+      }
+
+      .btn.primary {
+        background: linear-gradient(135deg, #8b5cf6 0%, #c084fc 100%);
+        border-color: transparent;
+      }
+
+      .page-switcher {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px;
+        margin-top: 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(12, 18, 28, 0.72);
+        box-shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
+      }
+
+      body.theme-light .page-switcher {
+        background: rgba(255, 255, 255, 0.72);
+        border-color: rgba(15, 23, 42, 0.08);
+      }
+
+      .page-switcher a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 180px;
+        padding: 11px 16px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: rgba(238,247,255,0.72);
+        transition: all 0.2s ease;
+      }
+
+      body.theme-light .page-switcher a {
+        color: rgba(15, 23, 42, 0.72);
+      }
+
+      .page-switcher a:hover {
+        color: var(--text);
+      }
+
+      .page-switcher a.active {
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.32), rgba(125, 211, 252, 0.12));
+        border: 1px solid rgba(139, 92, 246, 0.36);
+        color: var(--text);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 10px 24px rgba(139, 92, 246, 0.18);
+      }
+
+      .theme-toggle {
+        appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
+      }
+
+      .theme-toggle:hover {
+        transform: translateY(-1px) scale(1.03);
+        border-color: rgba(139, 92, 246, 0.4);
+        box-shadow: 0 16px 32px rgba(139, 92, 246, 0.18);
+      }
+
+      .showcase-card {
+        position: relative;
+        min-height: 560px;
+        border-radius: 30px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(17, 24, 39, 0.9), rgba(10, 14, 20, 0.8));
+        box-shadow: 0 32px 90px rgba(0,0,0,0.38);
+        overflow: hidden;
+      }
+
+      .showcase-card::before {
+        content: "";
+        position: absolute;
+        inset: -8% auto auto 18%;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.35), transparent 62%);
+      }
+
+      .thumb-demo {
+        position: absolute;
+        inset: 11% 8% 13% 8%;
+        border-radius: 26px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background:
+          linear-gradient(135deg, rgba(10,18,22,0.8), rgba(20,25,38,0.9)),
+          linear-gradient(120deg, rgba(125, 211, 252, 0.15), rgba(139, 92, 246, 0.08));
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+
+      .thumb-art {
+        width: min(72%, 360px);
+        aspect-ratio: 16 / 9;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background:
+          linear-gradient(130deg, rgba(11,16,24,0.75), rgba(18,27,39,0.9)),
+          radial-gradient(circle at 70% 25%, rgba(125, 211, 252, 0.25), transparent 20%),
+          radial-gradient(circle at 35% 65%, rgba(139, 92, 246, 0.25), transparent 26%);
+        position: relative;
+        box-shadow: 0 28px 60px rgba(0,0,0,0.25);
+      }
+
+      .thumb-art::before {
+        content: "";
+        position: absolute;
+        inset: 18% 8% auto auto;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(250, 204, 21, 0.9), rgba(250, 204, 21, 0.2) 35%, transparent 60%);
+        filter: blur(2px);
+      }
+
+      .thumb-art::after {
+        content: "BOSS RAID";
+        position: absolute;
+        left: 18px;
+        bottom: 22px;
+        color: white;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        font-size: clamp(0.9rem, 2vw, 1.4rem);
+      }
+
+      .mini-labels {
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        bottom: 6%;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .mini-box {
+        padding: 14px 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(9, 13, 20, 0.72);
+        text-align: center;
+      }
+
+      .mini-box strong {
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+
+      .mini-box span {
+        color: var(--muted);
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 32px;
+      }
+
+      .kicker {
+        display: inline-block;
+        color: #d8c5ff;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+
+      h2 {
+        margin: 0;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        line-height: 1;
+        letter-spacing: -0.065em;
+      }
+
+      .section-head p {
+        max-width: 480px;
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .services {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .service-card {
+        padding: 26px 22px;
+        border-radius: 22px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(17, 25, 37, 0.86), rgba(10, 14, 20, 0.8));
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        box-shadow: 0 18px 34px rgba(2, 6, 23, 0.14);
+      }
+
+      .service-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(125, 211, 252, 0.45);
+        box-shadow: 0 22px 40px rgba(37, 99, 235, 0.12);
+      }
+
+      body.theme-light .service-card,
+      body.theme-light .art-card,
+      body.theme-light .showcase-card,
+      body.theme-light .stack,
+      body.theme-light .tag,
+      body.theme-light .mini-box,
+      body.theme-light .cta-box {
+        background: rgba(255, 255, 255, 0.7);
+        border-color: rgba(15, 23, 42, 0.08);
+      }
+
+      body.theme-light .service-card p,
+      body.theme-light .art-meta p,
+      body.theme-light .hero-copy,
+      body.theme-light .section-head p,
+      body.theme-light .cta-box p,
+      body.theme-light .mini-box span,
+      body.theme-light .tag {
+        color: rgba(15, 23, 42, 0.74);
+      }
+
+      .service-card .number {
+        display: inline-flex;
+        margin-bottom: 16px;
+        padding: 7px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(125, 211, 252, 0.2);
+        background: rgba(125, 211, 252, 0.06);
+        color: var(--accent-2);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+      }
+
+      .service-card h3 {
+        margin: 0 0 12px;
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 1.9rem;
+        letter-spacing: -0.06em;
+      }
+
+      .service-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .art-card {
+        overflow: hidden;
+        border-radius: 22px;
+        border: 1px solid var(--line);
+        background: rgba(14, 20, 29, 0.84);
+        transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        box-shadow: 0 18px 34px rgba(2, 6, 23, 0.14);
+      }
+
+      .art-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(139, 92, 246, 0.5);
+        box-shadow: 0 24px 40px rgba(139, 92, 246, 0.12);
+      }
+
+      .art-preview {
+        height: 240px;
+        position: relative;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+
+      .art-preview::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(125, 211, 252, 0.1));
+      }
+
+      .art-preview::after {
+        content: attr(data-title);
+        position: absolute;
+        left: 18px;
+        bottom: 16px;
+        z-index: 1;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: white;
+      }
+
+      .art-card:nth-child(1) .art-preview {
+        background: linear-gradient(135deg, rgba(23, 32, 46, 0.88), rgba(56, 29, 79, 0.7));
+      }
+
+      .art-card:nth-child(2) .art-preview {
+        background: linear-gradient(135deg, rgba(17, 30, 43, 0.88), rgba(32, 77, 77, 0.7));
+      }
+
+      .art-card:nth-child(3) .art-preview {
+        background: linear-gradient(135deg, rgba(29, 24, 38, 0.88), rgba(83, 40, 37, 0.7));
+      }
+
+      .art-meta {
+        padding: 18px 18px 20px;
+      }
+
+      .art-meta h4 {
+        margin: 0 0 8px;
+        font-size: 1.3rem;
+        font-family: "Space Grotesk", sans-serif;
+        letter-spacing: -0.05em;
+      }
+
+      .art-meta p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 13px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: rgba(9, 13, 20, 0.72);
+        color: rgba(238,247,255,0.82);
+        font-size: 0.76rem;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .tag:hover {
+        transform: translateY(-2px);
+        border-color: rgba(125, 211, 252, 0.32);
+        box-shadow: 0 12px 24px rgba(37, 99, 235, 0.12);
+      }
+
+      .cta {
+        padding-top: 90px;
+      }
+
+      .cta-box {
+        text-align: center;
+        padding: 42px 28px;
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: linear-gradient(135deg, rgba(17, 25, 38, 0.9), rgba(9, 13, 20, 0.82));
+      }
+
+      .cta-box h2 {
+        max-width: 760px;
+        margin: 0 auto 18px;
+      }
+
+      .cta-box p {
+        max-width: 620px;
+        margin: 0 auto 26px;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      footer {
+        border-top: 1px solid rgba(255,255,255,0.06);
+        color: rgba(238,247,255,0.56);
+      }
+
+      .footer-inner {
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        font-size: 0.8rem;
+      }
+
+      /* === Mobile Navigation === */
+      .nav-burger {
+        display: none;
+        appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        align-items: center;
+        justify-content: center;
+      }
+      .nav-burger:hover {
+        border-color: rgba(125, 211, 252, 0.4);
+        box-shadow: 0 8px 20px rgba(125, 211, 252, 0.1);
+      }
+      body.theme-light .nav-burger {
+        border-color: rgba(15, 23, 42, 0.1);
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      .mobile-nav {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: rgba(7, 16, 24, 0.97);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 36px;
+      }
+      .mobile-nav.open { display: flex; }
+      body.theme-light .mobile-nav {
+        background: rgba(238, 243, 255, 0.97);
+      }
+      .mobile-nav a {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: -0.05em;
+        color: var(--text);
+        opacity: 0.6;
+        transition: opacity 0.18s ease, transform 0.18s ease;
+      }
+      .mobile-nav a:hover { opacity: 1; transform: translateX(6px); }
+      .mobile-nav-close {
+        position: absolute;
+        top: 22px;
+        right: 22px;
+        appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+      }
+      .mobile-nav-close:hover { border-color: rgba(125, 211, 252, 0.5); }
+
+      /* === Scroll Fade Animations === */
+      [data-fade] {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 0.65s ease, transform 0.65s ease;
+      }
+      [data-fade].visible { opacity: 1; transform: none; }
+      [data-fade][data-delay="1"] { transition-delay: 0.12s; }
+      [data-fade][data-delay="2"] { transition-delay: 0.24s; }
+
+      /* === Reviews === */
+      .review-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+      .review-slot {
+        min-height: 180px;
+        border: 1px dashed var(--line);
+        border-radius: 8px;
+      }
+
+      /* === Pricing === */
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        align-items: start;
+      }
+      .pricing-card {
+        position: relative;
+        padding: 28px 24px;
+        border-radius: 24px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(17, 25, 37, 0.86), rgba(10, 14, 20, 0.8));
+        transition: transform 0.25s ease, border-color 0.25s ease;
+      }
+      .pricing-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(125, 211, 252, 0.4);
+      }
+      body.theme-light .pricing-card {
+        background: rgba(255, 255, 255, 0.7);
+        border-color: rgba(15, 23, 42, 0.08);
+      }
+      .pricing-card.featured {
+        border-color: rgba(139, 92, 246, 0.5);
+        background: linear-gradient(180deg, rgba(28, 22, 50, 0.9), rgba(17, 12, 32, 0.88));
+        box-shadow: 0 24px 60px rgba(139, 92, 246, 0.18);
+      }
+      .pricing-badge {
+        display: inline-flex;
+        padding: 5px 10px;
+        margin-bottom: 16px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #8b5cf6, #a855f7);
+        color: white;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .pricing-tier {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent-2);
+        margin-bottom: 8px;
+      }
+      .pricing-amount {
+        font-family: "Space Grotesk", sans-serif;
+        font-size: 3.2rem;
+        font-weight: 800;
+        letter-spacing: -0.06em;
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+      .pricing-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      .currency-select {
+        min-height: 42px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+        color: var(--text);
+        font: inherit;
+      }
+      .pricing-desc {
+        color: var(--muted);
+        font-size: 0.85rem;
+        margin-bottom: 22px;
+      }
+      .pricing-list {
+        margin: 0 0 26px;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 2.1;
+        font-size: 0.9rem;
+      }
+      .pricing-list li::marker { color: var(--accent); }
+      body.theme-light .pricing-list { color: rgba(15, 23, 42, 0.74); }
+
+      @media (max-width: 980px) {
+        .hero-grid,
+        .services,
+        .gallery,
+        .pricing-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .nav-links { display: none; }
+        .nav-burger { display: flex; }
+        .mini-labels { grid-template-columns: 1fr; }
+        .review-grid { grid-template-columns: 1fr; }
+        .section-head {
+          display: block;
+        }
+        .pricing-controls { margin-top: 18px; }
+        .section-head p {
+          margin-top: 16px;
+        }
+        .footer-inner {
+          flex-direction: column;
+          justify-content: center;
+          text-align: center;
+          padding: 20px 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-overlay"></div>
+    <div class="mobile-nav" role="dialog" aria-label="Mobile navigation" aria-modal="true">
+      <button class="mobile-nav-close" type="button" aria-label="Close menu" data-nav-close>✕</button>
+      <a href="index.html#about" data-nav-link>About</a>
+      <a href="index.html#work" data-nav-link>Work</a>
+      <a href="index.html" data-nav-link>Developer</a>
+      <a href="minecraft.html" data-nav-link>Minecraft</a>
+      <a href="index.html#contact" data-nav-link>Contact</a>
+    </div>
+    <div class="site-shell">
+      <nav>
+        <div class="container nav-inner">
+          <a href="index.html" class="logo">FIX<span>MO</span></a>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div class="nav-links">
+              <a href="index.html#about">About</a>
+              <a href="index.html#work">Work</a>
+              <a href="index.html#process">Process</a>
+              <a href="index.html">Developer</a>
+              <a href="minecraft.html">Minecraft</a>
+              <a href="index.html#contact">Contact</a>
+            </div>
+            <button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle>☀️</button>
+            <button class="nav-burger" type="button" aria-label="Open menu" data-nav-burger>☰</button>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <div class="eyebrow">Minecraft design studio</div>
+            <h1>
+              Bold thumbnails.<br />
+              <span class="gradient">Serious clicks.</span>
+            </h1>
+            <p class="hero-copy">
+              I design eye-catching Minecraft thumbnails, server promos, and branded visuals that help content stand out in crowded feeds and search results.
+            </p>
+            <div class="actions">
+              <a class="btn" href="index.html">Developer portfolio</a>
+              <a class="btn primary" href="#work">View design work</a>
+              <a class="btn" href="index.html#contact">Book a project</a>
+            </div>
+            <div class="page-switcher" aria-label="Page switcher">
+              <a href="index.html">Developer</a>
+              <a class="active" href="minecraft.html">Minecraft</a>
+            </div>
+          </div>
+
+          <div class="showcase-card" aria-label="Minecraft thumbnail mockup">
+            <div class="thumb-demo">
+              <div class="thumb-art"></div>
+            </div>
+            <div class="mini-labels">
+              <div class="mini-box">
+                <strong>120+</strong>
+                <span>Design ideas</span>
+              </div>
+              <div class="mini-box">
+                <strong>3x</strong>
+                <span>More clicks</span>
+              </div>
+              <div class="mini-box">
+                <strong>4K</strong>
+                <span>Visual polish</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Services</div>
+              <h2>Visuals built for attention.</h2>
+            </div>
+            <p>
+              Whether it’s a YouTube thumbnail, a server banner, or a full content package, I focus on making the subject instantly clear and visually memorable.
+            </p>
+          </div>
+
+          <div class="services">
+            <div class="service-card">
+              <div class="number">01</div>
+              <h3>Thumbnails</h3>
+              <p>High-contrast, readable, and click-focused layouts built to stand out in a rushed feed.</p>
+            </div>
+
+            <div class="service-card">
+              <div class="number">02</div>
+              <h3>Server branding</h3>
+              <p>Graphics for Minecraft communities, promotional campaigns, and polished server identities.</p>
+            </div>
+
+            <div class="service-card">
+              <div class="number">03</div>
+              <h3>Packages & assets</h3>
+              <p>Reusable design assets, promo graphics, and custom visuals to support content and growth.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="work">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Style direction</div>
+              <h2>Designs made to pop.</h2>
+            </div>
+            <p>
+              I build toward strong focal points, readable text, and an overall aesthetic that still feels premium and clean.
+            </p>
+          </div>
+
+          <div class="gallery">
+            <article class="art-card">
+              <div class="art-preview" data-title="Boss raid"></div>
+              <div class="art-meta">
+                <h4>Raid promo</h4>
+                <p>High-stakes visuals with contrast, impact, and a clear “must-click” layout.</p>
+              </div>
+            </article>
+
+            <article class="art-card">
+              <div class="art-preview" data-title="Quest drop"></div>
+              <div class="art-meta">
+                <h4>Loot reveal</h4>
+                <p>Bright focal pieces designed to highlight reward value and excitement instantly.</p>
+              </div>
+            </article>
+
+            <article class="art-card">
+              <div class="art-preview" data-title="Server showcase"></div>
+              <div class="art-meta">
+                <h4>Community banner</h4>
+                <p>Clean branding pieces that feel premium while still matching a Minecraft aesthetic.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Approach</div>
+              <h2>Built for clarity and conversion.</h2>
+            </div>
+          </div>
+
+          <div class="stack">
+            <span class="tag">Minecraft aesthetic</span>
+            <span class="tag">Readable typography</span>
+            <span class="tag">Bold colors</span>
+            <span class="tag">YouTube thumbnails</span>
+            <span class="tag">Server graphics</span>
+            <span class="tag">Content branding</span>
+            <span class="tag">Promo variants</span>
+            <span class="tag">Clean layouts</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing">
+        <div class="container">
+          <div class="section-head" data-fade>
+            <div>
+              <div class="kicker">Pricing</div>
+              <h2>Simple, honest rates.</h2>
+            </div>
+            <div class="pricing-controls">
+              <label for="currency-select">Currency</label>
+              <select class="currency-select" id="currency-select" aria-label="Price currency">
+                <option value="USD">USD ($)</option>
+                <option value="INR">INR (₹)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="pricing-grid" data-fade data-delay="1">
+            <div class="pricing-card">
+              <div class="pricing-tier">Starter</div>
+              <div class="pricing-amount" data-price-usd="15">$15</div>
+              <div class="pricing-desc">Single thumbnail</div>
+              <ul class="pricing-list">
+                <li>1 custom thumbnail</li>
+                <li>2 rounds of revisions</li>
+                <li>48hr delivery</li>
+                <li>Source file included</li>
+              </ul>
+              <a class="btn" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
+            </div>
+            <div class="pricing-card featured">
+              <div class="pricing-badge">Most popular</div>
+              <div class="pricing-tier">Standard</div>
+              <div class="pricing-amount" data-price-usd="35">$35</div>
+              <div class="pricing-desc">Bundle of 3</div>
+              <ul class="pricing-list">
+                <li>3 custom thumbnails</li>
+                <li>Unlimited revisions</li>
+                <li>24hr delivery</li>
+                <li>Source files included</li>
+              </ul>
+              <a class="btn primary" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
+            </div>
+            <div class="pricing-card">
+              <div class="pricing-tier">Package</div>
+              <div class="pricing-amount" data-price-usd="80">$80</div>
+              <div class="pricing-desc">Full brand kit</div>
+              <ul class="pricing-list">
+                <li>5+ thumbnails</li>
+                <li>Server logo & banner</li>
+                <li>Promo graphics set</li>
+                <li>Priority 12hr delivery</li>
+              </ul>
+              <a class="btn" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Get started</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="reviews">
+        <div class="container">
+          <div class="section-head" data-fade>
+            <div>
+              <div class="kicker">Reviews</div>
+              <h2>Client reviews.</h2>
+            </div>
+          </div>
+
+          <div class="review-grid" data-fade data-delay="1">
+            <article class="review-slot" aria-label="Empty review template"></article>
+            <article class="review-slot" aria-label="Empty review template"></article>
+            <article class="review-slot" aria-label="Empty review template"></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta">
+        <div class="container">
+          <div class="cta-box">
+            <div class="kicker">Need visuals?</div>
+            <h2>Want a thumbnail or Minecraft graphic that actually stands out?</h2>
+            <p>
+              I can create custom thumbnails, promo art, and visual branding for your server, content, or Minecraft project.
+            </p>
+            <div class="actions" style="justify-content: center;">
+              <a class="btn primary" href="https://discord.com/users/ofixmo" target="_blank" rel="noopener">Discord</a>
+              <a class="btn" href="https://x.com/ofixmo" target="_blank" rel="noopener">X / Twitter</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      </main>
+
+      <footer>
+        <div class="container footer-inner">
+          <span>© 2026 Fixmo</span>
+          <span>Thumbnail design • server graphics • visual branding</span>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const body = document.body;
+
+        // Currency defaults to the visitor's browser region unless they chose one before.
+        const currencySelect = document.querySelector('#currency-select');
+        const prices = document.querySelectorAll('[data-price-usd]');
+        const savedCurrency = localStorage.getItem('fixmo-currency');
+        const localeRegion = (navigator.language || '').replace('_', '-').split('-').pop().toUpperCase();
+        let currency = savedCurrency === 'USD' || savedCurrency === 'INR'
+          ? savedCurrency
+          : localeRegion === 'IN' ? 'INR' : 'USD';
+        let usdToInr = 84;
+
+        const renderPrices = () => {
+          prices.forEach(price => {
+            const amount = Number(price.dataset.priceUsd);
+            price.textContent = currency === 'INR'
+              ? new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount * usdToInr)
+              : new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
+          });
+        };
+
+        if (currencySelect) {
+          currencySelect.value = currency;
+          currencySelect.addEventListener('change', () => {
+            currency = currencySelect.value;
+            localStorage.setItem('fixmo-currency', currency);
+            renderPrices();
+          });
+          renderPrices();
+          fetch('https://open.er-api.com/v6/latest/USD')
+            .then(response => response.json())
+            .then(data => {
+              if (data.result === 'success' && Number.isFinite(data.rates.INR)) {
+                usdToInr = data.rates.INR;
+                renderPrices();
+              }
+            })
+            .catch(() => {});
+        }
+
+        // Theme
+        const savedTheme = localStorage.getItem('fixmo-theme');
+        if (savedTheme !== 'dark') {
+          localStorage.setItem('fixmo-theme', 'light');
+        }
+        const useDarkMode = localStorage.getItem('fixmo-theme') === 'dark';
+        body.classList.toggle('theme-dark', useDarkMode);
+        body.classList.toggle('theme-light', !useDarkMode);
+
+        const themeToggle = document.querySelector('[data-theme-toggle]');
+        const updateThemeButton = () => {
+          if (!themeToggle) return;
+          const isLight = !body.classList.contains('theme-dark');
+          themeToggle.textContent = isLight ? '🌙' : '☀️';
+          themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+        };
+        updateThemeButton();
+
+        if (themeToggle) {
+          themeToggle.addEventListener('click', () => {
+            const isDark = body.classList.toggle('theme-dark');
+            body.classList.toggle('theme-light', !isDark);
+            localStorage.setItem('fixmo-theme', isDark ? 'dark' : 'light');
+            updateThemeButton();
+          });
+        }
+
+        // Mobile navigation
+        const mobileNav = document.querySelector('.mobile-nav');
+        const navBurger = document.querySelector('[data-nav-burger]');
+        const navClose = document.querySelector('[data-nav-close]');
+        const navLinks = document.querySelectorAll('[data-nav-link]');
+
+        const openMobileNav = () => {
+          mobileNav?.classList.add('open');
+          body.style.overflow = 'hidden';
+        };
+        const closeMobileNav = () => {
+          mobileNav?.classList.remove('open');
+          body.style.overflow = '';
+        };
+
+        navBurger?.addEventListener('click', openMobileNav);
+        navClose?.addEventListener('click', closeMobileNav);
+        navLinks.forEach(link => link.addEventListener('click', closeMobileNav));
+        mobileNav?.addEventListener('click', (e) => {
+          if (e.target === mobileNav) closeMobileNav();
+        });
+
+        // Scroll fade animations
+        const animateTargets = [
+          '.section-head', '.services', '.gallery',
+          '.pricing-grid', '.review-grid', '.stack'
+        ];
+        document.querySelectorAll(animateTargets.join(', ')).forEach(el => {
+          el.setAttribute('data-fade', '');
+        });
+
+        const fadeObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              fadeObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('[data-fade]').forEach(el => fadeObserver.observe(el));
+
+        // Page transition
+        const handleNavTransition = (event) => {
+          const link = event.currentTarget;
+          const href = link.getAttribute('href');
+          if (!href || href.startsWith('#') || link.target === '_blank') return;
+          event.preventDefault();
+          body.classList.add('transitioning');
+          setTimeout(() => { window.location.href = href; }, 260);
+        };
+
+        document.querySelectorAll('a[href$=".html"]').forEach(link => {
+          link.addEventListener('click', handleNavTransition);
+        });
+
+        setTimeout(() => body.classList.add('loaded'), 40);
+      });
+    </script>
+  </body>
+</html>

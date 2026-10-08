@@ -880,6 +880,36 @@
       @media (max-width: 680px) {
         .nav-links { display: none; }
         .nav-burger { display: flex; }
+        
+        .hero { padding-top: 48px; }
+
+        h1 {
+          font-size: clamp(2.2rem, 11vw, 3.2rem);
+          word-break: break-word;
+          hyphens: auto;
+        }
+
+        .eyebrow {
+          font-size: 0.6rem;
+          white-space: normal;
+          display: flex;
+          text-align: center;
+        }
+
+        .hero-copy {
+          color: var(--text);
+          font-weight: 500;
+        }
+
+        .actions {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .actions .btn {
+          width: 100%;
+        }
+
         .mini-labels { grid-template-columns: 1fr; }
         .review-grid { grid-template-columns: 1fr; }
         .section-head {

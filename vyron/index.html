@@ -1,374 +1,422 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vyron — Minecraft 1.8.9, Rebuilt in Rust</title>
-<meta name="description" content="Vyron is a modpack-style client for Minecraft 1.8.9 — Lunar-style launcher, mods and GUI, rebuilt natively in Rust. No JVM.">
+<title>Vyron — Minecraft, Rebuilt in Rust</title>
+<meta name="description" content="Vyron is a modpack-style client for Minecraft 1.8.9, rebuilt natively in Rust — boosted frames, all the popular mods, multi OS support, completely free.">
 <link rel="icon" href="assets/icon.svg">
 <style>
+  /* Palette: Lunar Client's own dark theme, extracted from lunarclient.com's
+     production bundle (Stitches createTheme dark variant + shared tokens):
+     primaryBackground #080808 · secondaryBackground #151515 · primaryText #FFF
+     secondaryText #C9C9C9 · tertiaryText #9C9C9C · navbarBackgroundSolid #090400
+     navbarBackground rgba(9,4,0,.45) · navbarSecondaryBackground rgba(9,4,0,.65)
+     navbarCtaBackground #c14e4f · navbarCtaBackgroundHover #d2595a
+     red #db4040 · green #3bbe54 · blue #3b96be · footerBackground #080808
+     Apex lime button #A4E80F (from their stylesheet) · cardRadius 1.15rem */
   :root{
-    --violet:#8B7CFF; --violet-dark:#6f5ef0; --ink:#14161c; --near-black:#0b0c10;
-    --light:#f2f3f5; --card:#ffffff; --muted:#6b7280; --lime:#a3e635; --sky:#38bdf8;
+    --bg:#080808; --card:#151515; --muted:#1c1c1c;
+    --text:#ffffff; --text2:#c9c9c9; --text3:#9c9c9c;
+    --nav-solid:#090400; --nav:rgba(9,4,0,.45); --nav2:rgba(9,4,0,.65);
+    --red:#c14e4f; --red-hover:#d2595a; --red-bright:#db4040;
+    --green:#3bbe54; --lime:#a4e80f; --blue:#3b96be;
+    --radius:1.15rem;
+    --font-head:'Panton','Arial Black','Helvetica Neue',Arial,sans-serif;
+    --font-body:'Roboto','Helvetica Neue',Arial,sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--light)}
-  a{text-decoration:none;color:inherit}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
   img{display:block;max-width:100%}
   .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
 
   /* ---------- NAV ---------- */
-  header{position:sticky;top:0;z-index:50;box-shadow:0 2px 14px rgba(0,0,0,.35)}
-  .nav1{background:var(--near-black);color:#fff}
-  .nav1 .wrap{display:flex;align-items:center;gap:16px;height:64px}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.14em;font-size:20px}
-  .brand img{width:34px;height:34px;border-radius:8px}
-  .nav1 .spacer{flex:1}
-  .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:6px;background:rgba(255,255,255,.08);color:#fff;font-weight:800;font-size:13px}
-  .icon-btn:hover{background:rgba(255,255,255,.18)}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:0 22px;height:46px;font-size:14px;border:none;cursor:pointer}
-  .btn-violet{background:var(--violet);color:#fff}
-  .btn-violet:hover{background:var(--violet-dark)}
-  .btn-menu{background:rgba(255,255,255,.1);color:#fff;height:40px;padding:0 16px;font-size:13px}
-  .nav2{background:rgba(11,12,16,.88);backdrop-filter:blur(8px);color:#fff;border-top:1px solid rgba(255,255,255,.07)}
-  .nav2 .wrap{display:flex;justify-content:center;gap:38px;height:42px;align-items:center}
-  .nav2 a{font-size:12px;font-weight:700;letter-spacing:.22em;color:#d7dae2}
+  header{position:sticky;top:0;z-index:100}
+  .nav1{background:var(--nav-solid);border-bottom:1px solid rgba(255,255,255,.06)}
+  .nav1 .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand img{width:40px;height:40px;border-radius:10px}
+  .brand span{font-family:var(--font-head);font-weight:900;font-size:1.35rem;letter-spacing:3px}
+  .nav1-right{display:flex;align-items:center;gap:14px}
+  .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,.07);color:var(--text2);font-family:var(--font-head);font-size:.72rem;font-weight:900;letter-spacing:1px;cursor:pointer;border:none}
+  .icon-btn:hover{background:rgba(255,255,255,.14);color:#fff}
+  .btn-download-nav{background:var(--red);color:#fff;font-family:var(--font-head);font-weight:900;letter-spacing:2px;font-size:1rem;padding:14px 30px;border-radius:6px;display:inline-flex;align-items:center;gap:10px;transition:background .2s}
+  .btn-download-nav:hover{background:var(--red-hover)}
+  .btn-menu{background:rgba(255,255,255,.07);color:#fff;font-family:var(--font-head);font-weight:900;letter-spacing:2px;font-size:.9rem;padding:14px 20px;border-radius:6px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px}
+  .btn-menu:hover{background:rgba(255,255,255,.14)}
+  .nav2{background:var(--nav2);backdrop-filter:blur(8px);display:none}
+  .nav2.open{display:block}
+  @media(min-width:900px){.nav2{display:block}}
+  .nav2 .wrap{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 34px;padding-top:12px;padding-bottom:12px}
+  .nav2 a{font-size:.78rem;font-weight:700;letter-spacing:3px;color:var(--text2);text-transform:uppercase}
   .nav2 a:hover{color:#fff}
 
   /* ---------- HERO ---------- */
-  .hero{position:relative;min-height:calc(100vh - 106px);display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;overflow:hidden;background:#0a0f1e}
-  .hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,8,18,.45),rgba(5,8,18,.25) 45%,rgba(5,8,18,.68))}
-  .hero .inner{position:relative;padding:90px 24px 110px;max-width:1000px}
-  .hero .mark{width:92px;height:92px;margin:0 auto 10px;border-radius:20px;box-shadow:0 14px 44px rgba(0,0,0,.5)}
-  .hero h1{font-size:clamp(84px,17vw,196px);font-weight:900;letter-spacing:-.015em;line-height:.95;text-shadow:0 8px 44px rgba(0,0,0,.55)}
-  .hero p{margin:20px auto 34px;font-size:clamp(16px,2.2vw,21px);font-weight:500;color:#eef0ff;text-shadow:0 2px 14px rgba(0,0,0,.6);max-width:640px}
-  .hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .btn-big{height:58px;padding:0 34px;font-size:16px;border-radius:6px}
-  .btn-ghost{background:rgba(10,12,20,.55);color:#fff;border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(6px)}
-  .btn-ghost:hover{background:rgba(10,12,20,.75)}
+  .hero{min-height:calc(100vh - 72px);display:flex;align-items:center;justify-content:center;text-align:center;position:relative;background:#04070d url('assets/hero.svg') center/cover no-repeat}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,6,10,.45) 0%,rgba(4,6,10,.25) 45%,var(--bg) 100%)}
+  .hero-inner{position:relative;z-index:1;padding:80px 24px 110px;display:flex;flex-direction:column;align-items:center}
+  .hero-icon{width:118px;height:118px;border-radius:26px;box-shadow:0 18px 50px rgba(0,0,0,.55);margin-bottom:8px}
+  .wordmark{font-family:var(--font-head);font-weight:900;font-size:clamp(4.2rem,15vw,11rem);line-height:.98;letter-spacing:-1px;color:#fff;text-shadow:0 6px 40px rgba(0,0,0,.6)}
+  .hero-sub{margin-top:14px;font-size:clamp(1.05rem,2.4vw,1.5rem);font-weight:300;color:#f2f2f2;text-shadow:0 2px 14px rgba(0,0,0,.7)}
+  .hero-btns{margin-top:38px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+  .btn-hero-red{background:var(--red);color:#fff;font-family:var(--font-head);font-weight:900;letter-spacing:2px;font-size:1.05rem;padding:17px 38px;border-radius:6px;display:inline-flex;align-items:center;gap:11px;transition:background .2s;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+  .btn-hero-red:hover{background:var(--red-hover)}
+  .btn-hero-dark{background:rgba(10,10,12,.55);border:1px solid rgba(255,255,255,.35);color:#fff;font-family:var(--font-head);font-weight:900;letter-spacing:2px;font-size:1.05rem;padding:17px 38px;border-radius:6px;display:inline-flex;align-items:center;gap:11px;backdrop-filter:blur(4px)}
+  .btn-hero-dark:hover{background:rgba(10,10,12,.8)}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:84px 0}
+  .sec-head{text-align:center;margin-bottom:44px}
+  .sec-head h2{font-family:var(--font-head);font-weight:900;font-size:clamp(1.9rem,4.5vw,2.9rem);letter-spacing:1px;text-transform:uppercase}
+  .sec-head p{color:var(--text2);margin-top:10px;font-weight:300;font-size:1.05rem}
 
   /* ---------- FEATURE CARDS ---------- */
-  section{padding:84px 0}
-  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
-  .fcard{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(16,20,40,.10);display:flex;flex-direction:column}
-  .fcard .photo{height:190px;width:100%;object-fit:cover}
-  .fcard .body{padding:22px 22px 26px}
-  .fcard .stat{font-size:12px;font-weight:800;letter-spacing:.18em;color:var(--violet-dark);text-transform:uppercase}
-  .fcard h3{margin-top:8px;font-size:27px;font-weight:900;letter-spacing:.01em;text-transform:uppercase;line-height:1.05}
-  .fcard p{margin-top:10px;color:var(--muted);font-size:14.5px;line-height:1.55}
+  .features{background:var(--bg)}
+  .cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  @media(max-width:1020px){.cards4{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.cards4{grid-template-columns:1fr}}
+  .fcard{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.5);transition:transform .2s}
+  .fcard:hover{transform:translateY(-5px)}
+  .fcard .ph{height:190px;background-size:cover;background-position:center}
+  .fcard .body{padding:24px 24px 30px}
+  .stat{font-size:.78rem;font-weight:700;letter-spacing:2.5px;color:var(--text3);text-transform:uppercase;margin-bottom:10px}
+  .fcard h3{font-family:var(--font-head);font-weight:900;font-size:1.65rem;letter-spacing:.5px;text-transform:uppercase;line-height:1.12}
+  .fcard p{color:var(--text2);font-weight:300;margin-top:12px;line-height:1.55;font-size:.97rem}
 
-  /* ---------- BLACK BANNER ---------- */
-  .banner-zone{padding:0 0 84px}
-  .banner{background:#000;color:#fff;border-radius:18px;display:flex;align-items:center;gap:28px;padding:38px 44px;flex-wrap:wrap}
-  .banner .txt{flex:1;min-width:260px}
-  .banner h3{font-size:26px;font-weight:900;text-transform:uppercase;letter-spacing:.02em}
-  .banner p{color:#b9bec9;margin-top:6px;font-size:15px}
-  .btn-lime{background:var(--lime);color:#10130a}
-  .btn-lime:hover{filter:brightness(1.07)}
+  /* ---------- PARTNER-STYLE BANNER ---------- */
+  .banner{background:#000;border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:38px 42px;display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap}
+  .banner p{font-size:1.12rem;font-weight:300;color:var(--text2);max-width:760px;line-height:1.55}
+  .banner p strong{color:#fff;font-weight:700}
+  .btn-lime{background:var(--lime);color:#0c1a00;font-family:var(--font-head);font-weight:900;letter-spacing:1.5px;font-size:.95rem;padding:15px 28px;border-radius:6px;white-space:nowrap}
+  .btn-lime:hover{filter:brightness(1.08)}
 
   /* ---------- NEWS ---------- */
-  .news-head{display:flex;align-items:baseline;gap:16px;margin-bottom:30px}
-  .news-head h2{font-size:38px;font-weight:900;text-transform:uppercase;letter-spacing:.01em}
-  .news-head span{color:var(--muted);font-weight:600}
-  .news-grid{display:grid;grid-template-columns:1.65fr 1fr;gap:22px}
-  .feature-news{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(16,20,40,.10)}
-  .feature-news .photo{height:320px;width:100%;object-fit:cover}
-  .feature-news .body{padding:26px 28px 30px}
-  .ribbon{display:inline-block;background:var(--violet);color:#fff;font-size:11px;font-weight:800;letter-spacing:.16em;padding:5px 10px;border-radius:4px;text-transform:uppercase}
-  .cat{display:inline-block;margin-left:8px;font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
-  .feature-news h3{font-size:29px;font-weight:900;line-height:1.15;margin-top:14px}
-  .feature-news p{color:var(--muted);margin-top:10px;line-height:1.6;font-size:15px}
-  .date{margin-top:14px;font-size:12.5px;font-weight:700;letter-spacing:.12em;color:#9aa1af;text-transform:uppercase}
-  .news-side{display:flex;flex-direction:column;gap:22px}
-  .socials{background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(16,20,40,.10);padding:24px 26px}
-  .socials h4{font-size:15px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px}
-  .socials a{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid #eceef2;font-weight:700;font-size:14.5px}
-  .socials a:first-of-type{border-top:none}
-  .socials a span{color:var(--violet-dark);font-weight:800}
-  .mini{background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(16,20,40,.10);padding:20px 24px}
-  .mini .cat{margin-left:0}
-  .mini h4{font-size:18px;font-weight:900;line-height:1.25;margin-top:8px}
-  .mini p{color:var(--muted);font-size:13.5px;margin-top:6px;line-height:1.5}
+  .news{background:var(--bg)}
+  .news-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:22px;align-items:start}
+  @media(max-width:900px){.news-grid{grid-template-columns:1fr}}
+  .ncard{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .ncard .ph{height:300px;background-size:cover;background-position:center;position:relative}
+  .ribbon{position:absolute;top:16px;left:-8px;background:var(--green);color:#fff;font-family:var(--font-head);font-weight:900;font-size:.75rem;letter-spacing:2px;padding:7px 16px 7px 20px;border-radius:4px}
+  .ncard .body{padding:26px 28px 30px}
+  .cat{font-size:.72rem;font-weight:700;letter-spacing:3px;color:var(--text3);text-transform:uppercase}
+  .ncard h3{font-family:var(--font-head);font-weight:900;font-size:1.7rem;line-height:1.2;margin:10px 0 12px;text-transform:uppercase}
+  .ncard p{color:var(--text2);font-weight:300;line-height:1.6}
+  .readmore{display:inline-block;margin-top:18px;color:#fff;font-weight:700;letter-spacing:1.5px;font-size:.82rem;text-transform:uppercase;border-bottom:2px solid var(--red-bright);padding-bottom:3px}
+  .side-col{display:flex;flex-direction:column;gap:22px}
+  .socials-card{background:var(--card);border-radius:var(--radius);padding:26px 28px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .socials-card h3{font-family:var(--font-head);font-weight:900;letter-spacing:1px;font-size:1.15rem;text-transform:uppercase;margin-bottom:18px}
+  .social-row{display:flex;gap:12px;flex-wrap:wrap}
+  .soc{display:inline-flex;align-items:center;gap:9px;background:var(--muted);border-radius:10px;padding:10px 15px;font-weight:700;font-size:.86rem;color:var(--text)}
+  .soc:hover{background:#262626}
+  .soc .g{font-family:var(--font-head);font-weight:900;font-size:.7rem;letter-spacing:1px;background:rgba(255,255,255,.12);border-radius:6px;padding:4px 7px}
+  .mini{display:flex;gap:16px;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.5);align-items:stretch}
+  .mini .ph{width:118px;flex:none;background-size:cover;background-position:center}
+  .mini .body{padding:16px 18px 16px 0}
+  .mini h4{font-family:var(--font-head);font-weight:900;font-size:1rem;line-height:1.25;text-transform:uppercase;margin-top:5px}
+  .mini p{color:var(--text3);font-size:.85rem;font-weight:300;margin-top:5px;line-height:1.45}
 
-  /* ---------- VERSIONS (slim) ---------- */
+  /* ---------- VERSIONS STRIP ---------- */
   .versions{padding:0 0 84px}
-  .vstrip{background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(16,20,40,.08);display:flex;align-items:center;gap:26px;padding:24px 32px;flex-wrap:wrap}
-  .vstrip h3{font-size:20px;font-weight:900;text-transform:uppercase}
-  .vstrip .v{font-weight:800;background:var(--light);border-radius:8px;padding:10px 16px;font-size:14px}
-  .vstrip .v b{color:var(--violet-dark)}
-  .vstrip p{color:var(--muted);font-size:14px;flex:1;min-width:220px}
+  .vstrip{background:var(--card);border-radius:var(--radius);padding:30px 36px;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap}
+  .vstrip .v{font-family:var(--font-head);font-weight:900;font-size:1.3rem;letter-spacing:.5px}
+  .vstrip .d{color:var(--text2);font-weight:300;margin-top:4px}
+  .pill{display:inline-block;font-size:.72rem;font-weight:900;letter-spacing:2px;padding:7px 14px;border-radius:50px;text-transform:uppercase}
+  .pill-on{background:var(--green);color:#fff}
+  .pill-soon{background:var(--muted);color:var(--text3)}
 
-  /* ---------- BLUE CTA ---------- */
-  .cta-zone{padding:0 0 84px}
-  .cta-card{position:relative;background:linear-gradient(135deg,#4cc3ff,#1d9bf0);border-radius:20px;color:#fff;display:flex;align-items:center;gap:30px;padding:44px 48px;overflow:hidden;flex-wrap:wrap}
-  .cta-card::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
-  .cta-card img{width:76px;height:76px;border-radius:16px;position:relative;z-index:1}
-  .cta-card .txt{flex:1;text-align:center;min-width:240px;position:relative;z-index:1}
-  .cta-card h3{font-size:31px;font-weight:900;text-transform:uppercase}
-  .cta-card p{margin-top:6px;font-weight:600;color:#eaf7ff}
-  .btn-outline{position:relative;z-index:1;background:transparent;color:#fff;border:3px solid #fff;border-radius:999px;height:56px;padding:0 32px;font-size:15px}
-  .btn-outline:hover{background:rgba(255,255,255,.16)}
+  /* ---------- CLOSING CTA ---------- */
+  .cta-card{border-radius:var(--radius);background:linear-gradient(135deg,#5cb9e8 0%,var(--blue) 90%);position:relative;overflow:hidden;padding:52px 46px;display:flex;align-items:center;gap:36px;flex-wrap:wrap}
+  .cta-card::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 2px,transparent 2px 46px),repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 2px,transparent 2px 46px)}
+  .cta-card img{width:92px;height:92px;border-radius:20px;position:relative;z-index:1;box-shadow:0 10px 26px rgba(0,0,0,.3)}
+  .cta-text{flex:1;min-width:260px;position:relative;z-index:1;color:#fff;font-size:clamp(1.05rem,2vw,1.3rem);font-weight:400;line-height:1.55;text-align:center}
+  .btn-pill{position:relative;z-index:1;border:3px solid #fff;color:#fff;font-family:var(--font-head);font-weight:900;letter-spacing:2px;font-size:1.05rem;padding:16px 40px;border-radius:50px;display:inline-flex;align-items:center;gap:11px;background:transparent}
+  .btn-pill:hover{background:rgba(255,255,255,.16)}
 
   /* ---------- DOWNLOAD ---------- */
-  .dl-head{text-align:center;margin-bottom:34px}
-  .dl-head h2{font-size:38px;font-weight:900;text-transform:uppercase}
-  .dl-head p{color:var(--muted);margin-top:8px;font-weight:600}
   .os-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .os{background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(16,20,40,.10);padding:34px 28px;text-align:center}
-  .os .glyph{font-size:44px;line-height:1}
-  .os h3{font-size:22px;font-weight:900;text-transform:uppercase;margin-top:14px}
-  .os p{color:var(--muted);font-size:14px;margin:8px 0 20px;line-height:1.55}
-  .os .btn{width:100%;justify-content:center}
-  .btn-disabled{background:#e5e7eb;color:#9aa1af;cursor:not-allowed}
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px}
-  .step{background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(16,20,40,.08);padding:24px 26px;display:flex;gap:16px}
-  .step .n{flex:none;width:38px;height:38px;border-radius:50%;background:var(--violet);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:17px}
-  .step h4{font-size:16px;font-weight:900;text-transform:uppercase}
-  .step p{color:var(--muted);font-size:13.5px;margin-top:5px;line-height:1.55}
+  @media(max-width:900px){.os-grid{grid-template-columns:1fr}}
+  .oscard{background:var(--card);border-radius:var(--radius);padding:38px 30px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+  .oscard .glyph{font-size:2.6rem;line-height:1}
+  .oscard h3{font-family:var(--font-head);font-weight:900;font-size:1.45rem;text-transform:uppercase;margin:16px 0 6px}
+  .oscard .sub{color:var(--text3);font-size:.9rem;font-weight:300;min-height:2.6em;line-height:1.45}
+  .btn-os{display:inline-block;margin-top:20px;background:var(--red);color:#fff;font-family:var(--font-head);font-weight:900;letter-spacing:1.5px;font-size:.92rem;padding:14px 26px;border-radius:6px}
+  .btn-os:hover{background:var(--red-hover)}
+  .btn-os.disabled{background:var(--muted);color:var(--text3);pointer-events:none}
+  .oscard .note{margin-top:14px;font-size:.8rem;color:var(--text3);font-weight:300;line-height:1.5}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+  @media(max-width:900px){.steps{grid-template-columns:1fr}}
+  .step{text-align:center;padding:0 12px}
+  .step .num{width:52px;height:52px;margin:0 auto 16px;border-radius:50%;background:var(--red);color:#fff;font-family:var(--font-head);font-weight:900;font-size:1.35rem;display:flex;align-items:center;justify-content:center}
+  .step h4{font-family:var(--font-head);font-weight:900;text-transform:uppercase;letter-spacing:.5px;font-size:1.05rem}
+  .step p{color:var(--text2);font-weight:300;margin-top:8px;line-height:1.55;font-size:.95rem}
 
   /* ---------- FOOTER ---------- */
-  footer{background:#000;color:#fff;text-align:center;padding:56px 24px 44px}
-  footer .mark{width:54px;height:54px;border-radius:12px;margin:0 auto 14px}
-  footer .brandline{font-weight:900;letter-spacing:.14em;font-size:18px}
-  footer .copy{color:#9aa1af;font-size:13.5px;margin-top:8px}
-  footer .links{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin:22px 0 14px}
-  footer .links a{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#d7dae2}
-  footer .links a:hover{color:#fff}
-  footer .fine{color:#6f7684;font-size:12.5px}
-  footer .social-row{display:flex;justify-content:center;gap:12px;margin-top:20px}
-  footer .social-row a{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;letter-spacing:.02em}
-  footer .social-row a:hover{background:var(--violet)}
-
-  @media (max-width:1020px){
-    .cards{grid-template-columns:repeat(2,1fr)}
-    .news-grid{grid-template-columns:1fr}
-    .os-grid,.steps{grid-template-columns:1fr}
-    .nav2 .wrap{gap:20px;overflow-x:auto;justify-content:flex-start}
-  }
-  @media (max-width:560px){ .cards{grid-template-columns:1fr} .banner,.cta-card{padding:30px 24px} }
+  footer{background:var(--bg);border-top:1px solid rgba(255,255,255,.07);padding:60px 0 46px;text-align:center}
+  footer .ficon{width:56px;height:56px;border-radius:14px;margin:0 auto 18px}
+  .fcopy{color:var(--text2);font-size:.95rem}
+  .flinks{margin:22px 0 6px;display:flex;justify-content:center;flex-wrap:wrap;gap:10px 26px}
+  .flinks a{color:var(--text2);font-size:.9rem}
+  .flinks a:hover{color:#fff}
+  .fnote{color:var(--text3);font-size:.85rem;margin-top:12px}
+  .fsocials{margin-top:24px;display:flex;justify-content:center;gap:12px}
+  .fsoc{width:44px;height:44px;border-radius:50%;background:var(--muted);display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:900;font-size:.72rem;letter-spacing:1px;color:var(--text)}
+  .fsoc:hover{background:#262626}
 </style>
 </head>
 <body>
 
-<!-- ================= NAV ================= -->
+<!-- ============ NAV ============ -->
 <header>
   <div class="nav1">
     <div class="wrap">
-      <a class="brand" href="#top"><img src="assets/icon.svg" alt="Vyron icon">VYRON</a>
-      <div class="spacer"></div>
-      <a class="icon-btn" href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener" title="GitHub">GH</a>
-      <a class="btn btn-violet" href="#download">&#8681;&nbsp;Download</a>
-      <button class="btn btn-menu" id="menuBtn">Menu</button>
+      <a class="brand" href="#top"><img src="assets/icon.svg" alt="Vyron icon"><span>VYRON</span></a>
+      <div class="nav1-right">
+        <a class="icon-btn" href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener" title="Vyron on GitHub">GH</a>
+        <span class="icon-btn" title="Dark theme" aria-hidden="true">&#9790;</span>
+        <a class="btn-download-nav" href="#download"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13m0 0l-5-5m5 5l5-5M4 21h16"/></svg>DOWNLOAD</a>
+        <button class="btn-menu" id="menuBtn" aria-label="Toggle menu">&#9776; MENU</button>
+      </div>
     </div>
   </div>
   <nav class="nav2" id="nav2">
     <div class="wrap">
-      <a href="#features">Features</a>
-      <a href="#versions">Versions</a>
       <a href="#news">News</a>
+      <a href="https://github.com/oFixmo/vyron-client/releases" target="_blank" rel="noopener">Changelog</a>
+      <a href="#features">Features</a>
+      <a href="#about">Staff</a>
       <a href="https://github.com/oFixmo/vyron-client/issues" target="_blank" rel="noopener">Support</a>
-      <a href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener">GitHub</a>
+      <a href="#socials">Socials</a>
     </div>
   </nav>
 </header>
 
-<!-- ================= HERO ================= -->
-<section class="hero" id="top" style="padding:0">
-  <img class="bg" src="assets/hero.svg" alt="">
-  <div class="shade"></div>
-  <div class="inner">
-    <img class="mark" src="assets/icon.svg" alt="Vyron">
-    <h1>VYRON</h1>
-    <p>A modpack-style client for Minecraft 1.8.9 — rebuilt in Rust.</p>
-    <div class="cta">
-      <a class="btn btn-violet btn-big" href="#download">&#8681;&nbsp;Download for Windows</a>
-      <a class="btn btn-ghost btn-big" href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener">View on GitHub</a>
+<!-- ============ HERO ============ -->
+<div class="hero" id="top">
+  <div class="hero-inner">
+    <img class="hero-icon" src="assets/icon.svg" alt="Vyron logo">
+    <div class="wordmark">VYRON</div>
+    <p class="hero-sub">A modpack-style client for Minecraft 1.8.9 &mdash; rebuilt in Rust.</p>
+    <div class="hero-btns">
+      <a class="btn-hero-red" href="#download"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13m0 0l-5-5m5 5l5-5M4 21h16"/></svg>DOWNLOAD</a>
+      <a class="btn-hero-dark" href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener">GITHUB</a>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ================= FEATURE CARDS ================= -->
-<section id="features">
+<!-- ============ FEATURES ============ -->
+<section class="features" id="features">
   <div class="wrap">
-    <div class="cards">
+    <div class="sec-head">
+      <h2>Our Features</h2>
+      <p>Explore what Vyron has to offer</p>
+    </div>
+    <div class="cards4">
       <article class="fcard">
-        <img class="photo" src="assets/hero.svg" alt="Vyron launcher backdrop art">
+        <div class="ph" style="background-image:url('assets/card-village.svg')"></div>
         <div class="body">
           <div class="stat">One download to launch</div>
           <h3>Single Install</h3>
-          <p>One installer sets up the launcher, the client and the server. Open it, pick your account, press play — nothing else to configure.</p>
+          <p>One installer sets up the launcher and the native client. No Java runtime to install, no mod folders to manage &mdash; sign in and play.</p>
         </div>
       </article>
       <article class="fcard">
-        <img class="photo" src="assets/card-arena.svg" alt="Voxel PvP arena artwork">
+        <div class="ph" style="background-image:url('assets/card-arena.svg')"></div>
         <div class="body">
-          <div class="stat">31 modules · growing</div>
-          <h3>Built-in Mods</h3>
-          <p>A Lunar-style mod suite baked into the client — FPS, CPS, keystrokes, freelook, zoom and more, with per-server auto-compliance.</p>
+          <div class="stat">31 mods and growing</div>
+          <h3>Countless Mods</h3>
+          <p>The PvP suite is built in: FPS, CPS, Keystrokes, Freelook, Zoom, Armor Status and more &mdash; every module native Rust, toggled in one menu.</p>
         </div>
       </article>
       <article class="fcard">
-        <img class="photo" src="assets/card-landscape.svg" alt="Voxel landscape artwork">
+        <div class="ph" style="background-image:url('assets/card-landscape.svg')"></div>
         <div class="body">
-          <div class="stat">Native Rust · No JVM</div>
+          <div class="stat">Native Rust engine</div>
           <h3>Boosted Frames</h3>
-          <p>The game itself is reimplemented in native Rust on wgpu/Vulkan — no Java runtime, no JVM overhead between you and the render.</p>
+          <p>The game itself is reimplemented in Rust on wgpu/Vulkan &mdash; no JVM, no garbage-collection hitches, just a native binary built for PvP.</p>
         </div>
       </article>
       <article class="fcard">
-        <img class="photo" src="assets/card-village.svg" alt="Voxel night village artwork">
+        <div class="ph" style="background-image:url('assets/hero.svg')"></div>
         <div class="body">
-          <div class="stat">Windows first</div>
-          <h3>Multi-OS Support</h3>
-          <p>Windows is the launch platform, cross-compiled and packaged today. macOS and Linux builds are on the roadmap, in the open.</p>
+          <div class="stat">Windows &middot; macOS &middot; Linux</div>
+          <h3>MultiOS Support</h3>
+          <p>Windows is available first, with macOS and Linux builds on the roadmap &mdash; the same client, the same mods, on every OS.</p>
         </div>
       </article>
     </div>
   </div>
 </section>
 
-<!-- ================= BLACK BANNER ================= -->
-<div class="banner-zone">
-  <div class="wrap">
-    <div class="banner">
-      <div class="txt">
-        <h3>Built in the open</h3>
-        <p>Vyron is in active development. Follow the build, milestone by milestone.</p>
-      </div>
-      <a class="btn btn-lime" href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener">Follow on GitHub</a>
-    </div>
+<!-- ============ BANNER ============ -->
+<div class="wrap" style="padding-bottom:84px">
+  <div class="banner">
+    <p><strong>Vyron is in active development.</strong> Follow the build milestone by milestone &mdash; every step of the Rust rebuild happens in the open, on GitHub.</p>
+    <a class="btn-lime" href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener">FOLLOW ON GITHUB</a>
   </div>
 </div>
 
-<!-- ================= NEWS ================= -->
-<section id="news" style="padding-top:0">
+<!-- ============ NEWS ============ -->
+<section class="news" id="news" style="padding-top:0">
   <div class="wrap">
-    <div class="news-head"><h2>Latest News</h2><span>Development updates, as they land</span></div>
+    <div class="sec-head">
+      <h2>Latest News</h2>
+      <p>Updates from the Vyron build</p>
+    </div>
     <div class="news-grid">
-      <article class="feature-news">
-        <img class="photo" src="assets/card-arena.svg" alt="Voxel arena artwork">
+      <article class="ncard">
+        <div class="ph" style="background-image:url('assets/card-landscape.svg')"><span class="ribbon">LATEST</span></div>
         <div class="body">
-          <span class="ribbon">Latest</span><span class="cat">Development</span>
+          <div class="cat">Milestone &middot; Announcement</div>
           <h3>M13: The Hardening Pass</h3>
-          <p>Every finding from an external code review, fixed: capped decompression so a hostile server can't force a giant allocation, bounded channels, a server connection cap, atomic crash-safe world saves with autosave, and bulk chunk packets with per-chunk remeshing. 182 of 182 tests green.</p>
-          <div class="date">November 25, 2026</div>
+          <p>Vyron's thirteenth milestone closed out the full external code-review fix list: decompression caps, bounded channels, a server connection cap, atomic crash-safe saves with autosave, bulk chunk packets and per-chunk remeshing. The build is green with 182 of 182 tests passing.</p>
+          <a class="readmore" href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener">Read more</a>
         </div>
       </article>
-      <div class="news-side">
-        <div class="socials">
-          <h4>Follow our socials</h4>
-          <a href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener">GitHub <span>oFixmo/vyron-client &rarr;</span></a>
-          <a href="https://www.youtube.com/@gta6delaysclips" target="_blank" rel="noopener">YouTube <span>@gta6delaysclips &rarr;</span></a>
-          <a href="https://www.instagram.com/gta6delays" target="_blank" rel="noopener">Instagram <span>@gta6delays &rarr;</span></a>
-          <a href="https://www.tiktok.com/@gta6delays" target="_blank" rel="noopener">TikTok <span>@gta6delays &rarr;</span></a>
+      <div class="side-col">
+        <div class="socials-card" id="socials">
+          <h3>Follow Our Socials</h3>
+          <div class="social-row">
+            <a class="soc" href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener"><span class="g">GH</span>GitHub</a>
+            <a class="soc" href="https://www.youtube.com/@gta6delaysclips" target="_blank" rel="noopener"><span class="g">YT</span>YouTube</a>
+            <a class="soc" href="https://www.instagram.com/gta6delays" target="_blank" rel="noopener"><span class="g">IG</span>Instagram</a>
+            <a class="soc" href="https://www.tiktok.com/@gta6delays" target="_blank" rel="noopener"><span class="g">TT</span>TikTok</a>
+            <span class="soc"><span class="g">DC</span>Discord &middot; @gta6delays</span>
+          </div>
         </div>
         <article class="mini">
-          <span class="cat">Development</span>
-          <h4>M12: PvP Suite, Wave 2</h4>
-          <p>Freelook, zoom, toggle sprint/sneak and a real ping module go live — 9 of 31 modules now running.</p>
+          <div class="ph" style="background-image:url('assets/card-arena.svg')"></div>
+          <div class="body">
+            <div class="cat">Milestone</div>
+            <h4>PvP Suite Wave 2 Is Live</h4>
+            <p>Freelook, Zoom, Toggle Sprint/Sneak and the Ping module join the suite &mdash; 9 of 31 modules now live.</p>
+          </div>
         </article>
         <article class="mini">
-          <span class="cat">Development</span>
-          <h4>M11: Browser Sign-in</h4>
-          <p>Lunar-style sign-in lands: your browser talks to Microsoft, Vyron never sees your password.</p>
+          <div class="ph" style="background-image:url('assets/card-village.svg')"></div>
+          <div class="body">
+            <div class="cat">Milestone</div>
+            <h4>Browser Sign-In, Lunar-Style</h4>
+            <p>Sign in with Microsoft in your browser, just like the clients you know &mdash; your password never touches Vyron.</p>
+          </div>
         </article>
         <article class="mini">
-          <span class="cat">Development</span>
-          <h4>M7: Real Textures</h4>
-          <p>Prepare pulls the real block textures from your own copy of the game — your jar, your textures.</p>
+          <div class="ph" style="background-image:url('assets/hero.svg')"></div>
+          <div class="body">
+            <div class="cat">Milestone</div>
+            <h4>Real Textures, From Your Copy</h4>
+            <p>Prepare pulls the real Minecraft textures from your own legally owned copy of the game &mdash; nothing bundled, nothing borrowed.</p>
+          </div>
         </article>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= VERSIONS (slim) ================= -->
-<div class="versions" id="versions">
+<!-- ============ VERSIONS ============ -->
+<div class="versions">
   <div class="wrap">
     <div class="vstrip">
-      <h3>Versions</h3>
-      <div class="v">Minecraft <b>1.8.9</b> · protocol 47</div>
-      <p>The PvP classic is Vyron's home version — pre-flattening worlds, no attack cooldown. Modern versions are on the roadmap.</p>
-    </div>
-  </div>
-</div>
-
-<!-- ================= BLUE CTA ================= -->
-<div class="cta-zone">
-  <div class="wrap">
-    <div class="cta-card">
-      <img src="assets/icon.svg" alt="Vyron">
-      <div class="txt">
-        <h3>Ready to play?</h3>
-        <p>Free, native, and built for 1.8.9 PvP.</p>
+      <div>
+        <div class="v">Minecraft 1.8.9</div>
+        <div class="d">Protocol 47 &mdash; the PvP classic, Vyron's home version.</div>
       </div>
-      <a class="btn btn-outline" href="#download">&#8681;&nbsp;Download</a>
+      <span class="pill pill-on">Available now</span>
+      <div>
+        <div class="v">Modern Minecraft</div>
+        <div class="d">Versions 1.20&ndash;1.21 are in development.</div>
+      </div>
+      <span class="pill pill-soon">On the roadmap</span>
     </div>
   </div>
 </div>
 
-<!-- ================= DOWNLOAD ================= -->
+<!-- ============ CLOSING CTA ============ -->
+<div class="wrap" id="about" style="padding-bottom:84px">
+  <div class="cta-card">
+    <img src="assets/icon.svg" alt="Vyron icon">
+    <p class="cta-text">Boosted frames, all the popular mods, multi OS support, and did we mention it&rsquo;s completely free? So what are you waiting for &mdash; download Vyron today!</p>
+    <a class="btn-pill" href="#download"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13m0 0l-5-5m5 5l5-5M4 21h16"/></svg>DOWNLOAD</a>
+  </div>
+</div>
+
+<!-- ============ DOWNLOAD ============ -->
 <section id="download" style="padding-top:0">
   <div class="wrap">
-    <div class="dl-head">
+    <div class="sec-head">
       <h2>Download Vyron</h2>
-      <p>Pick your platform. The first public release lands soon — watch the releases page.</p>
+      <p>Pick your operating system and get playing</p>
     </div>
     <div class="os-grid">
-      <div class="os">
-        <div class="glyph">&#x229E;</div>
+      <div class="oscard">
+        <div class="glyph">&#8862;</div>
         <h3>Windows</h3>
-        <p>Windows 10/11, 64-bit. One installer — VyronSetup.exe — with Start Menu and desktop shortcuts.</p>
-        <a class="btn btn-violet" href="https://github.com/oFixmo/vyron-client/releases" target="_blank" rel="noopener">Download for Windows</a>
+        <p class="sub">64-bit installer for Windows 10 and 11</p>
+        <a class="btn-os" href="https://github.com/oFixmo/vyron-client/releases" target="_blank" rel="noopener">DOWNLOAD FOR WINDOWS</a>
+        <p class="note">The first public release lands soon &mdash; the installer will be published on the releases page.</p>
       </div>
-      <div class="os">
-        <div class="glyph">&#xF8FF;</div>
+      <div class="oscard">
+        <div class="glyph">&#63743;</div>
         <h3>macOS</h3>
-        <p>A native macOS build is planned once the Windows release is out. Follow the repo to hear about it first.</p>
-        <span class="btn btn-disabled">Coming soon</span>
+        <p class="sub">Intel &amp; Apple Silicon</p>
+        <span class="btn-os disabled">COMING SOON</span>
+        <p class="note">The macOS build is on the roadmap.</p>
       </div>
-      <div class="os">
-        <div class="glyph">&#x1F427;</div>
+      <div class="oscard">
+        <div class="glyph">&#128039;</div>
         <h3>Linux</h3>
-        <p>Vyron is developed and tested on Linux, but packaged builds ship after Windows. Coming soon.</p>
-        <span class="btn btn-disabled">Coming soon</span>
+        <p class="sub">Native build, no JVM required</p>
+        <span class="btn-os disabled">COMING SOON</span>
+        <p class="note">The Linux build is on the roadmap.</p>
       </div>
     </div>
     <div class="steps">
-      <div class="step"><div class="n">1</div><div><h4>Download</h4><p>Grab VyronSetup.exe from the releases page and run it — no admin rights needed.</p></div></div>
-      <div class="step"><div class="n">2</div><div><h4>Sign in or play offline</h4><p>First launch asks once: sign in with Microsoft, or play offline with a username.</p></div></div>
-      <div class="step"><div class="n">3</div><div><h4>Prepare &amp; play</h4><p>Run Prepare once so Vyron can use the textures from your own copy of Minecraft 1.8.9, then hit Launch.</p></div></div>
+      <div class="step">
+        <div class="num">1</div>
+        <h4>Download the client</h4>
+        <p>Grab the Vyron installer for your operating system above.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h4>Open the launcher</h4>
+        <p>Run the installer, open Vyron, and run Prepare once so it can use the textures from your own copy of Minecraft.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h4>Sign in &amp; launch</h4>
+        <p>Sign in with Microsoft or play offline, select 1.8.9, and hit launch.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ================= FOOTER ================= -->
+<!-- ============ FOOTER ============ -->
 <footer>
-  <img class="mark" src="assets/icon.svg" alt="Vyron">
-  <div class="brandline">VYRON</div>
-  <div class="copy">&copy; 2026 Vyron</div>
-  <div class="links">
-    <a href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://github.com/oFixmo/vyron-client/issues" target="_blank" rel="noopener">Support</a>
-    <a href="https://github.com/oFixmo/vyron-client/issues" target="_blank" rel="noopener">FAQ</a>
-    <a href="#">Terms</a>
-    <a href="#">Privacy</a>
-  </div>
-  <div class="fine">Not affiliated with Mojang or Microsoft. Minecraft is a trademark of Mojang AB.</div>
-  <div class="social-row">
-    <a href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener" title="GitHub">GH</a>
-    <a href="https://www.youtube.com/@gta6delaysclips" target="_blank" rel="noopener" title="YouTube">YT</a>
-    <a href="https://www.instagram.com/gta6delays" target="_blank" rel="noopener" title="Instagram">IG</a>
-    <a href="https://www.tiktok.com/@gta6delays" target="_blank" rel="noopener" title="TikTok">TT</a>
+  <div class="wrap">
+    <img class="ficon" src="assets/icon.svg" alt="Vyron icon">
+    <div class="fcopy">&copy; 2026 Vyron</div>
+    <div class="flinks">
+      <a href="https://github.com/oFixmo/vyron-client/issues" target="_blank" rel="noopener">Support</a>
+      <a href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener">Status</a>
+      <a href="https://github.com/oFixmo" target="_blank" rel="noopener">Careers</a>
+      <a href="https://github.com/oFixmo/vyron-client#readme" target="_blank" rel="noopener">FAQ</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Privacy Policy</a>
+    </div>
+    <div class="fnote">Not affiliated with Mojang or Microsoft.</div>
+    <div class="fsocials">
+      <a class="fsoc" href="https://github.com/oFixmo/vyron-client" target="_blank" rel="noopener" title="GitHub">GH</a>
+      <a class="fsoc" href="https://www.youtube.com/@gta6delaysclips" target="_blank" rel="noopener" title="YouTube">YT</a>
+      <a class="fsoc" href="https://www.instagram.com/gta6delays" target="_blank" rel="noopener" title="Instagram">IG</a>
+      <a class="fsoc" href="https://www.tiktok.com/@gta6delays" target="_blank" rel="noopener" title="TikTok">TT</a>
+    </div>
   </div>
 </footer>
 
 <script>
-  document.getElementById('menuBtn').addEventListener('click', function(){
-    var n = document.getElementById('nav2');
-    n.style.display = (n.style.display === 'none') ? '' : 'none';
+  document.getElementById('menuBtn').addEventListener('click', function () {
+    document.getElementById('nav2').classList.toggle('open');
   });
 </script>
 </body>

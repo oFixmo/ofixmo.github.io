@@ -87,24 +87,29 @@
   [data-theme="light"] .theme-toggle .ic-sun{display:block}
   [data-theme="light"] .theme-toggle .ic-moon{display:none}
 
-  /* ---------- CURVED GLASS RAIL (docked right, mirrored curve) ----------
-     Frosted panel flush to the right edge; its LEFT edge is the concave
+  /* ---------- CURVED GLASS RAIL (right-side overlay, mirrored curve) ----------
+     Frosted panel that slides in from the right edge over a scrim when
+     the 3-line menu button is pressed; its LEFT edge is the concave
      curve (wide at top and bottom, pinched mid-height), drawn by an SVG
      clip on the glass layer plus a neon rim + glow tracing the same path.
-     Without SVG-clip support the glass falls back to a rounded rect. */
+     Without SVG-clip support the glass falls back to a rounded rect.
+     Closed = translated off-canvas + visibility hidden (after the slide);
+     .slow stretches the opening slide to the mana-gather duration so the
+     particle stream and the panel arrive together. */
   :root{--rail-w:300px}
-  .rail{position:fixed;top:0;right:0;bottom:0;width:var(--rail-w);z-index:300}
+  .rail{position:fixed;top:0;right:0;bottom:0;width:var(--rail-w);z-index:320;transform:translateX(112%);visibility:hidden;transition:transform .5s cubic-bezier(.22,.8,.24,1),visibility 0s linear .5s;will-change:transform}
+  .rail.open{transform:none;visibility:visible;transition:transform .55s cubic-bezier(.22,.8,.24,1),visibility 0s}
+  .rail.open.slow{transition:transform 1.05s cubic-bezier(.22,.8,.24,1),visibility 0s}
   .rail-glass{position:absolute;inset:0;background:var(--rail-fill);backdrop-filter:blur(18px) saturate(1.45);-webkit-backdrop-filter:blur(18px) saturate(1.45);border:1px solid var(--border2);border-right:none;border-radius:26px 0 0 26px}
   .has-railclip .rail-glass{clip-path:url(#railClip);border:none;border-radius:0}
   .rail-rim,.rail-glow{position:absolute;inset:0;width:100%;height:100%;display:none;pointer-events:none}
   .has-railclip .rail-rim,.has-railclip .rail-glow{display:block}
   .rail-glow{filter:blur(7px);opacity:.75}
-  .rail-in{position:relative;height:100%;display:flex;flex-direction:column;padding:24px 18px 20px 52px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+  .rail-in{position:relative;height:100%;display:flex;flex-direction:column;padding:24px 18px 20px 52px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;overscroll-behavior:contain}
   .rail-brand{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .rail-brand .brand{display:flex;align-items:center;gap:11px}
   .rail-brand .brand .logo-art{width:36px;height:36px;border-radius:10px}
   .rail-brand .brand span{font-family:var(--font-head);font-weight:800;font-size:1.18rem;letter-spacing:4px;color:var(--text)}
-  .rail-close{display:none}
   .rail-status{display:flex;align-items:center;gap:12px;margin-top:24px;padding:13px;background:var(--iconbg);border:1px solid var(--border);border-radius:16px}
   .rail-status .logo-art{width:42px;height:42px;border-radius:12px;flex:none}
   .rs-name{font-family:var(--font-head);font-weight:700;font-size:.98rem;line-height:1.2}
@@ -143,20 +148,23 @@
   .btn-rail-dl:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(124,58,237,.45),inset 0 1px 0 rgba(255,255,255,.35)}
   .rail-foot .theme-toggle{height:auto;width:46px;border-radius:11px}
 
-  /* ---------- MOBILE TOP BAR + RAIL OVERLAY ---------- */
+  /* ---------- MENU BUTTON, SCRIM, GATHER CANVAS + MOBILE TOP BAR ---------- */
   .topbar{display:none}
-  .nav-scrim{display:none}
+  .nav-scrim{display:block;position:fixed;inset:0;background:rgba(5,2,12,.55);opacity:0;pointer-events:none;transition:opacity .35s ease;z-index:310}
+  .nav-scrim.on{opacity:1;pointer-events:auto}
+  #gatherFx{position:fixed;inset:0;width:100%;height:100%;display:block;pointer-events:none;z-index:318}
+  .menu-fab{position:fixed;top:20px;right:20px;z-index:290;width:48px;height:48px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;background:var(--rail-fill);border:1px solid var(--border2);color:var(--text);backdrop-filter:blur(14px) saturate(1.45);-webkit-backdrop-filter:blur(14px) saturate(1.45);box-shadow:var(--shadow),inset 0 1px 0 var(--rim-hi);cursor:pointer;transition:transform .25s ease,opacity .3s ease}
+  .menu-fab:hover{transform:translateY(-1px)}
+  .menu-fab svg{width:21px;height:21px;display:block}
+  .menu-fab.hide{opacity:0;pointer-events:none;transform:translateY(-6px)}
   @media(max-width:1024px){
+    .menu-fab{display:none}
     .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;position:fixed;top:0;left:0;right:0;height:60px;padding:0 16px;z-index:120;background:var(--nav-solid);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
     .topbar .brand{display:flex;align-items:center;gap:10px}
     .topbar .brand .logo-art{width:32px;height:32px;border-radius:9px}
     .topbar .brand span{font-family:var(--font-head);font-weight:800;font-size:1.05rem;letter-spacing:3.5px}
     .top-actions{display:flex;gap:9px;align-items:center}
-    .rail{width:min(320px,88vw);transform:translateX(112%);transition:transform .45s cubic-bezier(.2,.7,.2,1);z-index:320}
-    .rail.open{transform:none}
-    .rail-close{display:inline-flex}
-    .nav-scrim{display:block;position:fixed;inset:0;background:rgba(5,2,12,.55);opacity:0;pointer-events:none;transition:opacity .3s;z-index:310}
-    .nav-scrim.on{opacity:1;pointer-events:auto}
+    .rail{width:min(320px,88vw)}
   }
 
   /* ---------- HERO ---------- */
@@ -339,13 +347,10 @@
   }
 
   /* ---------- RAIL LAYOUT + LIQUID GLASS (late rules, win on order) ----------
-     Desktop: full-bleed blocks keep their full-width border box (backgrounds
-     and the hero video run beneath the glass) while right padding equal to
-     the rail's width keeps every content box clear of it. */
+     The rail is an overlay at every width now, so content always spans
+     the full width — no rail-width padding anywhere; anchor targets just
+     keep a small scroll margin (a taller one under the mobile top bar). */
   section[id],div[id]{scroll-margin-top:30px}
-  @media(min-width:1025px){
-    .hero,section,footer{padding-right:var(--rail-w)}
-  }
   @media(max-width:1024px){
     section[id],div[id]{scroll-margin-top:78px}
   }
@@ -388,6 +393,11 @@
   </defs>
 </svg>
 
+<!-- ============ MENU BUTTON (floating, desktop) ============ -->
+<button class="menu-fab" id="menuBtnDesk" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="railNav" aria-label="Open menu">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+</button>
+
 <!-- ============ MOBILE TOP BAR ============ -->
 <div class="topbar">
   <a class="brand" href="#top" aria-label="Vyron home"><span class="logo-art" role="img" aria-label="Vyron logo"></span><span>VYRON</span></a>
@@ -402,8 +412,9 @@
   </div>
 </div>
 <div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+<canvas id="gatherFx" aria-hidden="true"></canvas>
 
-<!-- ============ CURVED GLASS RAIL (right side) ============ -->
+<!-- ============ CURVED GLASS RAIL (right-side overlay) ============ -->
 <aside class="rail" id="railNav" aria-label="Site navigation">
   <div class="rail-glass" aria-hidden="true"></div>
   <svg class="rail-glow" viewBox="0 0 300 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M300 0 L55.5 0 C22.5 4 8.4 30 10.5 90 C16.5 240 40.5 360 40.5 500 C40.5 640 16.5 760 10.5 910 C8.4 970 22.5 996 55.5 1000 L300 1000" fill="none" style="stroke:var(--accent-hi)" stroke-width="3" vector-effect="non-scaling-stroke"/></svg>
@@ -784,8 +795,11 @@
     });
   })();
 
-  /* ---------- Curved rail: glass capability detection, mobile overlay,
-     submenu toggle and scroll-spy ---------- */
+  /* ---------- Curved rail: glass capability detection, overlay
+     open/close, submenu toggle and scroll-spy. Opening plays the
+     mana-gather: glyph/dust particles stream from the hero gem logo
+     to the panel's curved edge while a soft synthesized charge tone
+     rises for exactly the same duration. ---------- */
   (function () {
     var root = document.documentElement;
     var probe = document.createElement('div');
@@ -797,18 +811,197 @@
 
     var rail = document.getElementById('railNav');
     if (!rail) return;
-    var openBtn = document.getElementById('menuBtn');
+    var openBtns = [];
+    ['menuBtn', 'menuBtnDesk'].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b) openBtns.push(b);
+    });
+    var fab = document.getElementById('menuBtnDesk');
     var closeBtn = document.getElementById('railClose');
     var scrim = document.getElementById('navScrim');
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var GATHER_MS = 1050;
+    var lastBtn = null, slowTimer = null;
+
+    /* ----- Mana-gather sound: a rising shimmer synthesized live with
+       Web Audio (no audio file). Three detuned partials glide up an
+       octave through a sweeping lowpass, swelling and decaying inside
+       exactly the gather duration, with one soft high bell as the
+       mana lands. Started from the click handler, so the browser's
+       autoplay policy is satisfied by the user's gesture. ----- */
+    var manaSound = (function () {
+      var ac = null;
+      function play(dur) {
+        try {
+          var pref = null;
+          try { pref = localStorage.getItem('vyron-sound'); } catch (e) {}
+          if (pref === 'off') return;
+          var AC = window.AudioContext || window.webkitAudioContext;
+          if (!AC) return;
+          if (!ac) ac = new AC();
+          if (ac.state === 'suspended') { var rp = ac.resume(); if (rp && rp.catch) rp.catch(function () {}); }
+          var t0 = ac.currentTime + 0.02;
+          var out = ac.createGain();
+          out.gain.setValueAtTime(0.0001, t0);
+          out.gain.exponentialRampToValueAtTime(0.13, t0 + dur * 0.4);
+          out.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+          var flt = ac.createBiquadFilter();
+          flt.type = 'lowpass'; flt.Q.value = 0.8;
+          flt.frequency.setValueAtTime(700, t0);
+          flt.frequency.exponentialRampToValueAtTime(2600, t0 + dur * 0.85);
+          flt.connect(out); out.connect(ac.destination);
+          function voice(type, f0, f1, g, detune) {
+            var o = ac.createOscillator(), og = ac.createGain();
+            o.type = type;
+            o.frequency.setValueAtTime(f0, t0);
+            o.frequency.exponentialRampToValueAtTime(f1, t0 + dur * 0.9);
+            o.detune.value = detune || 0;
+            og.gain.value = g;
+            o.connect(og); og.connect(flt);
+            o.start(t0); o.stop(t0 + dur + 0.05);
+          }
+          voice('sine', 392, 784, 0.5, 0);            /* G4 -> G5 fundamental */
+          voice('sine', 587.33, 1174.66, 0.22, 3);    /* the fifth above */
+          voice('triangle', 783.99, 1567.98, 0.10, 5); /* sparkle octave */
+          var bt = t0 + dur * 0.88;
+          var bo = ac.createOscillator(), bg = ac.createGain();
+          bo.type = 'sine'; bo.frequency.value = 1567.98;
+          bg.gain.setValueAtTime(0.0001, bt);
+          bg.gain.exponentialRampToValueAtTime(0.045, bt + 0.03);
+          bg.gain.exponentialRampToValueAtTime(0.0001, bt + 0.3);
+          bo.connect(bg); bg.connect(ac.destination);
+          bo.start(bt); bo.stop(bt + 0.35);
+        } catch (e) {}
+      }
+      return { play: play };
+    })();
+
+    /* ----- Particle gather: particles burst from the hero gem logo
+       (screen centre at the top of the page) and stream along easing
+       arcs into the panel's curved left edge, arriving as the panel
+       finishes its .slow slide — the mana "becomes" the menu. Canvas,
+       transform-free compositing, capped DPR, runs only while opening. ----- */
+    var gatherCv = document.getElementById('gatherFx');
+    var gtx = gatherCv ? gatherCv.getContext('2d') : null;
+    var gRaf = null, gParts = [], gT0 = 0;
+    var GCOL = ['#d3b8ff', '#a678ff', '#ffffff', '#8b5cf6', '#c4a8ff'];
+    var GGLYPH = 'ᔑᒷᓵᒋᒍᒲᓭᓂᒟᑚ';
+    function gatherStop() {
+      if (gRaf) cancelAnimationFrame(gRaf);
+      gRaf = null; gParts = [];
+      if (gtx) gtx.clearRect(0, 0, gatherCv.width, gatherCv.height);
+    }
+    function gatherFrame(now) {
+      var t = (now - gT0) / GATHER_MS;
+      if (t >= 1) { gatherStop(); return; }
+      var W = window.innerWidth, H = window.innerHeight;
+      gtx.clearRect(0, 0, W, H);
+      gtx.textAlign = 'center'; gtx.textBaseline = 'middle';
+      for (var i = 0; i < gParts.length; i++) {
+        var p = gParts[i];
+        var lt = (t - p.delay) / (1 - p.delay);
+        if (lt <= 0) continue;
+        lt = Math.min(1, lt);
+        var e = lt < 0.5 ? 4 * lt * lt * lt : 1 - Math.pow(-2 * lt + 2, 3) / 2; /* easeInOutCubic: leaves the logo gently, streams, settles into the panel */
+        var x = p.sx + (p.tx - p.sx) * e;
+        var y = p.sy + (p.ty - p.sy) * e + Math.sin(e * Math.PI) * p.bow;
+        var a = lt < 0.12 ? lt / 0.12 : (lt > 0.8 ? (1 - lt) / 0.2 : 1);
+        gtx.globalAlpha = Math.max(0, Math.min(1, a)) * 0.95;
+        gtx.fillStyle = p.c;
+        if (p.glyph) {
+          gtx.font = p.size + 'px sans-serif';
+          gtx.fillText(p.glyph, x, y);
+        } else {
+          gtx.beginPath();
+          gtx.arc(x, y, p.size, 0, 6.2832);
+          gtx.fill();
+        }
+      }
+      gtx.globalAlpha = 1;
+      gRaf = requestAnimationFrame(gatherFrame);
+    }
+    function gatherBurst() {
+      if (!gtx) return;
+      gatherStop();
+      var W = window.innerWidth, H = window.innerHeight;
+      var DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+      gatherCv.width = Math.round(W * DPR);
+      gatherCv.height = Math.round(H * DPR);
+      gtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      /* Origin: the hero gem logo's centre, clamped into the viewport
+         for when the button is pressed further down the page. */
+      var ox = W / 2, oy = Math.round(H * 0.3);
+      var logo = document.getElementById('heroLogo3d');
+      if (logo) {
+        var r = logo.getBoundingClientRect();
+        ox = r.left + r.width / 2; oy = r.top + r.height / 2;
+      }
+      ox = Math.max(30, Math.min(W - 30, ox));
+      oy = Math.max(30, Math.min(H - 30, oy));
+      /* Targets: points just inside the panel's curved left edge —
+         the clip path bows from ~8px at the ends to ~40px mid-height. */
+      var rw = rail.offsetWidth || 300;
+      var edgeX = W - rw;
+      var N = W < 700 ? 60 : 96;
+      gParts = [];
+      for (var i = 0; i < N; i++) {
+        var f = Math.random();
+        var curveX = 8 + 34 * Math.pow(Math.sin(Math.PI * f), 1.15);
+        var glyph = Math.random() < 0.22;
+        gParts.push({
+          sx: ox + (Math.random() - 0.5) * 40,
+          sy: oy + (Math.random() - 0.5) * 40,
+          tx: edgeX + curveX + 6 + Math.random() * 30,
+          ty: 24 + f * (H - 48),
+          delay: Math.random() * 0.22,
+          bow: (Math.random() - 0.5) * 46,
+          size: glyph ? 10 + Math.random() * 7 : 1.4 + Math.random() * 2.4,
+          glyph: glyph ? GGLYPH[Math.floor(Math.random() * GGLYPH.length)] : null,
+          c: GCOL[Math.floor(Math.random() * GCOL.length)]
+        });
+      }
+      gT0 = performance.now();
+      gRaf = requestAnimationFrame(gatherFrame);
+    }
+
     function isOpen() { return rail.classList.contains('open'); }
-    function open() { rail.classList.add('open'); if (scrim) scrim.classList.add('on'); if (openBtn) openBtn.setAttribute('aria-expanded', 'true'); }
-    function close() { rail.classList.remove('open'); if (scrim) scrim.classList.remove('on'); if (openBtn) openBtn.setAttribute('aria-expanded', 'false'); }
-    if (openBtn) openBtn.addEventListener('click', function () { isOpen() ? close() : open(); });
+    function setExpanded(v) {
+      openBtns.forEach(function (b) { b.setAttribute('aria-expanded', v ? 'true' : 'false'); });
+    }
+    function open(fromBtn) {
+      lastBtn = fromBtn || lastBtn;
+      if (!reduced) {
+        rail.classList.add('slow');
+        clearTimeout(slowTimer);
+        slowTimer = setTimeout(function () { rail.classList.remove('slow'); }, GATHER_MS + 80);
+      }
+      rail.classList.add('open');
+      if (scrim) scrim.classList.add('on');
+      if (fab) fab.classList.add('hide');
+      setExpanded(true);
+      document.body.style.overflow = 'hidden';
+      if (!reduced) { gatherBurst(); manaSound.play(GATHER_MS / 1000); }
+    }
+    function close() {
+      rail.classList.remove('open');
+      if (scrim) scrim.classList.remove('on');
+      if (fab) fab.classList.remove('hide');
+      setExpanded(false);
+      document.body.style.overflow = '';
+      gatherStop();
+    }
+    openBtns.forEach(function (b) {
+      b.addEventListener('click', function () { isOpen() ? close() : open(b); });
+    });
     if (closeBtn) closeBtn.addEventListener('click', close);
     if (scrim) scrim.addEventListener('click', close);
-    rail.addEventListener('click', function (e) { if (e.target.closest('a') && window.innerWidth <= 1024) close(); });
+    rail.addEventListener('click', function (e) { if (e.target.closest('a')) close(); });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && isOpen()) { close(); if (openBtn) openBtn.focus(); }
+      if (e.key === 'Escape' && isOpen()) {
+        close();
+        var b = lastBtn || openBtns[0];
+        if (b) b.focus();
+      }
     });
 
     var chev = document.getElementById('clientChev');
